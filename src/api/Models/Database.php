@@ -8,6 +8,8 @@ class Database
         try 
         {
             $this->connection = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
+            $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } 
         catch (PDOException $exception) 
         {
@@ -16,24 +18,36 @@ class Database
         }
     }
 
-    public function select($query = "", $params = array())
+    public function select($query = "", $params)
     {
         try 
         {
             $statement = $this->executeStatement($query, $params);
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-            $statement = null;
 
             return $result;
         } 
         catch (Exception $exception) 
         {
-            throw New Exception($exception->getMessage());
+            throw new Exception($exception->getMessage());
         }
         return false;
     }
 
-    public function executeStatement($query = "", $params = array())
+    public function insert($query = "", $params)
+    {
+        try 
+        {
+            $this->executeStatement($query, $params);
+            return $this->connection->lastInsertId();
+        } 
+        catch (Exception $exception) 
+        {
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+    public function executeStatement($query = "", $params)
     {
         try 
         {
@@ -41,24 +55,14 @@ class Database
 
             if ($statement === false) 
             {
-                throw New Exception("Unable to prepare statement for execution: " . $query);
+                throw new Exception("Unable to prepare statement for execution: " . $query);
             }
-
-            // Add parameter bindings if they are passed
-            if ($params) 
-            {
-                foreach ($params as $key => $value) 
-                {
-                    $statement->bindParam($key, $value, PDO::PARAM_INT);
-                }
-            }
-
-            $statement->execute();
+            $statement->execute(is_array($params) ? $params : [$params]);
             return $statement;
         } 
         catch (Exception $exception) 
         {
-            throw New Exception($exception->getMessage());
+            throw new Exception($exception->getMessage());
         }
     }
 }
