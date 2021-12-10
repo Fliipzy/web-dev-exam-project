@@ -4,7 +4,7 @@ class BaseController
 {
     protected string $errorDescription = "";
     protected string $errorHeader;
-    protected string $responseData;
+    protected string $responseData = "";
     protected string $successStatusCode = "200 OK";
 
     public function notFound() 

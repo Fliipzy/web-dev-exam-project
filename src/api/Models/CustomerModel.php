@@ -14,20 +14,26 @@ class CustomerModel extends Database
         return $results ? $results[0] : null;
     }
 
+    public function getCustomerByEmail($email)
+    {
+        $results = $this->select("SELECT * FROM `customer` WHERE `Email` = ?", $email);
+        return $results ? $results[0] : null;
+    }
+
     public function updateCustomer($updatedCustomer)
     {
         $updatedCustomerParams = [
-            $updatedCustomer->firstName,
-            $updatedCustomer->lastName,
-            $updatedCustomer->company,
-            $updatedCustomer->city,
-            $updatedCustomer->state,
-            $updatedCustomer->country,
-            $updatedCustomer->postalCode,
-            $updatedCustomer->phone,
-            $updatedCustomer->fax,
-            $updatedCustomer->email,
-            $updatedCustomer->customerId
+            $updatedCustomer["firstName"],
+            $updatedCustomer["lastName"],
+            $updatedCustomer["company"],
+            $updatedCustomer["city"],
+            $updatedCustomer["state"],
+            $updatedCustomer["country"],
+            $updatedCustomer["postalCode"],
+            $updatedCustomer["phone"],
+            $updatedCustomer["fax"],
+            $updatedCustomer["email"],
+            $updatedCustomer["customerId"]
         ];
 
         $statement = $this->executeStatement(

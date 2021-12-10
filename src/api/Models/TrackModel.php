@@ -9,27 +9,28 @@ class TrackModel extends Database
 
     public function searchTracks($query, $limit)
     {
-        return $this->select("SELECT * FROM `track` WHERE `Name` = %?%", [$query, $limit ? $limit : -1]);
+        $query = "%" . $query . "%";
+        return $this->select("SELECT * FROM `track` WHERE `Name` LIKE ? LIMIT ?", [$query, $limit ? $limit : -1]);
     }
 
     public function getTrack($id)
     {
-        $statement = $this->executeStatement("SELECT * FROM `track` WHERE `TrackId` = ?", $id);
-        return $statement->fetch();
+        $tracks = $this->select("SELECT * FROM `track` WHERE `TrackId` = ?", $id);
+        return $tracks ? $tracks[0] : null;
     }
 
     public function updateTrack($updatedTrack)
     {
         $updatedTrackArray = [
-            $updatedTrack->name,
-            $updatedTrack->albumId,
-            $updatedTrack->mediaTypeId,
-            $updatedTrack->genreId,
-            $updatedTrack->composer,
-            $updatedTrack->milliseconds,
-            $updatedTrack->bytes,
-            $updatedTrack->unitPrice,
-            $updatedTrack->trackId,
+            $updatedTrack["name"],
+            $updatedTrack["albumId"],
+            $updatedTrack["mediaTypeId"],
+            $updatedTrack["genreId"],
+            $updatedTrack["composer"],
+            $updatedTrack["milliseconds"],
+            $updatedTrack["bytes"],
+            $updatedTrack["unitPrice"],
+            $updatedTrack["trackId"],
         ];
 
         $statement = $this->executeStatement(
@@ -43,9 +44,20 @@ class TrackModel extends Database
 
     public function createTrack($track)
     {
+        $trackArray = [
+            $track["name"],
+            $track["albumId"],
+            $track["mediaTypeId"],
+            $track["genreId"],
+            $track["composer"],
+            $track["milliseconds"],
+            $track["bytes"],
+            $track["unitPrice"]
+        ];
+
         return $this->insert(
             "INSERT INTO `track` (`Name`, `AlbumId`, `MediaTypeId`, `GenreId`, `Composer`, `Milliseconds`, `Bytes`, `UnitPrice`)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)", $track);
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)", $trackArray);
     }
 
     public function deleteTrack($id)

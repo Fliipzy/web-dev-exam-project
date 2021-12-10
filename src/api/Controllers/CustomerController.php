@@ -40,10 +40,11 @@ class CustomerController extends BaseController
         try 
         {
             $customerModel = new CustomerModel();
-            $customerData = $customerModel->getCustomer($id);
+            $customer = $customerModel->getCustomer($id);
 
-            if ($customerData) {
-                $this->responseData = json_encode($customerData);
+            if ($customer) 
+            {
+                $this->responseData = json_encode($customer);
             }
             else 
             {

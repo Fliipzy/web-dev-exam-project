@@ -15,14 +15,14 @@ class MediaTypeModel extends Database
 
     public function createMediaType($mediaType)
     {
-        return $this->insert("INSERT INTO `mediatype` (`Name`) VALUES (?)", $mediaType);
+        return $this->insert("INSERT INTO `mediatype` (`Name`) VALUES (?)", array_values($mediaType));
     }
 
     public function updateMediaType($updatedMediaType)
     {
         $updatedMediaTypeArray = [
-            $updatedMediaType->name,
-            $updatedMediaType->mediaTypeId
+            $updatedMediaType["name"],
+            $updatedMediaType["mediaTypeId"]
         ];
 
         $statement = $this->executeStatement("UPDATE `mediatype` SET `Name` = ? WHERE `MediaTypeId` = ?", $updatedMediaTypeArray);

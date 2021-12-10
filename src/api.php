@@ -1,9 +1,11 @@
 <?php
-require_once(__DIR__ . "/Inc/bootstrap.php");
+session_start();
+
+require_once(__DIR__ . "/api/Inc/bootstrap.php");
 
 // parse request uri & get substring from this index.php files folder (api/*)
 $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-$uri = substr($uri, strpos($uri, basename(__DIR__)));
+$uri = substr($uri, strpos($uri, basename(__DIR__)) + 4);
 
 // trim trailing slash from request, if it exists
 $uri = rtrim($uri, "/");
@@ -11,8 +13,65 @@ $uri = rtrim($uri, "/");
 // slice up the uri string for easier inspection
 $uri = explode("/", $uri);
 
+
 // get the request method
 $requestMethod = $_SERVER["REQUEST_METHOD"];
+
+if ($uri[1] == "authentication") 
+{
+    $controller = new AuthenticationController();
+
+    switch ($requestMethod) {
+    
+        case "GET":
+            if (isset($uri[2]) && $uri[2] == "signout") {
+                $controller->signOut();
+            }
+            break;
+
+        case "POST":
+            if (isset($uri[2])) {
+                if ($uri[2] == "signin") 
+                {
+                    $signinRequest = json_decode(file_get_contents("php://input"), true);
+                    $controller->signIn($signinRequest);
+                }
+                else if ($uri[2] == "signup") 
+                {
+                    $signupRequest = json_decode(file_get_contents("php://input"), true);
+                    $controller->signUp($signupRequest);
+                }
+            }
+            break;
+
+        case "PATCH":
+            if (isset($uri[2])) 
+            {
+                if ($uri[2] == "reset-password")  
+                {
+                    $status = json_decode(file_get_contents("php://input"), true);
+                }
+                if (isset($uri[3]) && $uri[3] == "active-status") 
+                {
+                    $status = json_decode(file_get_contents("php://input"), true);
+                    $controller->setUserActiveStatus($uri[2], $status["activeStatus"]);
+                }
+            }
+            break;
+
+        default:
+            $controller->notFound();
+            break;
+        }
+
+    exit();
+}
+
+// Make sure to check if user is authorized to request these endpoints
+if (!isset($_SESSION["email"])) {
+    header("HTTP/1.1 401 Unauthorized");
+    exit();
+}
 
 switch ($uri[1]) 
 {
@@ -64,51 +123,6 @@ switch ($uri[1])
                 $controller->notFound();
                 break;
         }
-        break;
-
-    case "authentication":
-        $controller = new AuthenticationController();
-
-        switch ($requestMethod) {
-    
-            case "GET":
-                if (isset($uri[2]) && $uri[2] == "signout") {
-                    $controller->signOut();
-                }
-                break;
-
-            case "POST":
-                if (isset($uri[2])) {
-                    if ($uri[2] == "signin") 
-                    {
-                        
-                    }
-                    else if ($uri[2] == "signup") 
-                    {
-
-                    }
-                }
-                break;
-
-            case "PATCH":
-                if (isset($uri[2])) 
-                {
-                    if ($uri[2] == "reset-password")  
-                    {
-                        $status = json_decode(file_get_contents("php://input"), true);
-                    }
-                    if (isset($uri[3]) && $uri[3] == "active-status") 
-                    {
-                        $status = json_decode(file_get_contents("php://input"), true);
-                        $controller->setUserActiveStatus($uri[2], $status["activeStatus"]);
-                    }
-                }
-                break;
-
-            default:
-                $controller->notFound();
-                break;
-            }
         break;
 
     case "customers":
@@ -216,6 +230,11 @@ switch ($uri[1])
                 $controller->notFound();
                 break;
         }
+        break;
+
+    case "test":
+        $testObj = json_decode(file_get_contents("php://input"), true);
+        var_dump(array_values($testObj));
         break;
 
     default:

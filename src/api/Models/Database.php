@@ -18,7 +18,7 @@ class Database
         }
     }
 
-    public function select($query = "", $params)
+    public function select($query = "", $params = null)
     {
         try 
         {
@@ -34,7 +34,7 @@ class Database
         return false;
     }
 
-    public function insert($query = "", $params)
+    public function insert($query = "", $params = null)
     {
         try 
         {
@@ -47,7 +47,7 @@ class Database
         }
     }
 
-    public function executeStatement($query = "", $params)
+    public function executeStatement($query = "", $params = null)
     {
         try 
         {
@@ -57,7 +57,7 @@ class Database
             {
                 throw new Exception("Unable to prepare statement for execution: " . $query);
             }
-            $statement->execute(is_array($params) ? $params : [$params]);
+            $statement->execute($params ? (is_array($params) ? $params : [$params]) : null);
             return $statement;
         } 
         catch (Exception $exception) 

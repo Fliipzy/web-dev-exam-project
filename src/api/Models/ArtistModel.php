@@ -15,8 +15,8 @@ class ArtistModel extends Database
     public function updateArtist($updatedArtist)
     {
         $updatedArtistArray = [
-            $updatedArtist->name,
-            $updatedArtist->artistId
+            $updatedArtist["name"],
+            $updatedArtist["artistId"]
         ];
 
         $statement = $this->executeStatement(
@@ -29,7 +29,7 @@ class ArtistModel extends Database
 
     public function createArtist($artist)
     {
-        return $this->insert("INSERT INTO `artist` (Name) VALUES (?)", $artist);
+        return $this->insert("INSERT INTO `artist` (Name) VALUES (?)", array_values($artist));
     }
 
     public function deleteArtist($id)
