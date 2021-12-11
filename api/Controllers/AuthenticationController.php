@@ -59,11 +59,10 @@ class AuthenticationController extends BaseController
      */
     public function signOut()
     {
-        if (!session_destroy()) 
-        {
-            $this->errorDescription = "Could not destroy session."; 
-            $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
-        }
+        // destroy the session object
+        session_unset();
+        session_destroy();
+        $_SESSION = array();
         $this->handleResponse();
     }
 

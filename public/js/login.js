@@ -4,12 +4,9 @@ loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const formData = new FormData(loginForm);
     
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "../api/authentication/signin")
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.send(JSON.stringify({email: formData.get("email"), password: formData.get("password")}));
-
-    xhr.onload = function() {
+    const xhttp = new XMLHttpRequest();
+    
+    xhttp.onload = function() {
         if (this.status == 200) {
             location.reload();
         }
@@ -17,6 +14,10 @@ loginForm.addEventListener("submit", (event) => {
             handleUnauthorized();
         }
     };
+    
+    xhttp.open("POST", "../api/authentication/signin")
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify({email: formData.get("email"), password: formData.get("password")}));
 });
 
 function handleUnauthorized()
