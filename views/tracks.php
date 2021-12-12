@@ -3,7 +3,7 @@ session_start();
 
 if (!isset($_SESSION["email"])) 
 {
-    header("Location: login.php", true, 302);
+    header("Location: login.php#redirect", true, 302);
     exit();
 }
 ?>
@@ -14,31 +14,86 @@ if (!isset($_SESSION["email"]))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MusicStore | Tracks</title>
+    <title>TuneStore | Tracks</title>
 
     <link rel="stylesheet" href="../public/css/global.css">
     <link rel="stylesheet" href="../public/css/tracks.css">
     
-    <script defer src="../public/js/tracks.js"></script>
+    <script type="text/javascript" src="../public/js/cart.js"></script>
+    <script type="text/javascript" defer src="../public/js/tracks.js"></script>
+    <script defer src="../public/js/spinner.js"></script>
     <script src="https://kit.fontawesome.com/13c84602fa.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <?php include("./fragments/navbar.php"); ?>
     <div class="container">
-        <h1>Tracks</h1>
-        <table id="trackTable" class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
 
-            </tbody>
-        </table>
+        <h1>Tracks</h1>
+
+
+        <form id="searchForm" method="get">
+            <div class="input-group">
+                <input class="noblock" type="text" name="query" required>
+                <input class="btn noblock" type="submit" value="Search">
+                <img hidden id="searchSpinner" class="spinner" src="../public/images/spinner.gif" height="30px">
+            </div>
+        </form>
+
+        <section hidden id="searchResults"></section>
+        
+        <section hidden id="errorMessage" class="error"></section>
+
+        <br>
+
+        <div class="col">
+
+            <!-- Track table row -->
+            <div id="trackTableRow" class="row">
+
+                <table id="trackTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Artist(s)</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        
+                    </tbody>
+                </table>
+        
+                <section id="tablePagination">
+                    <br>
+                    <button class="btn" id="prev"><i class="fas fa-angle-double-left"></i> Prev</button>
+                    <span></span> 
+                    <button class="btn" id="next">Next <i class="fas fa-angle-double-right"></i></button>
+                </section>
+
+                <br>
+            </div>
+            
+        </div>
+
+
     </div>
     <?php include("./fragments/footer.php"); ?>
+
+    <!-- track info modal -->
+    <div hidden id="trackInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">🗙</span>
+                <h2>Track info</h2>
+            </div>
+            <div class="modal-body">
+                <div id="trackInfo"></div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

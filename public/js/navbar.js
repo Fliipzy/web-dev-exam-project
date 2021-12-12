@@ -2,7 +2,7 @@ function logout() {
     let xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         if (this.status == 200) {
-            location.reload();   
+            location.href = "login.php";   
         }
     };
     xhttp.open("GET", "../api/authentication/signout", true);

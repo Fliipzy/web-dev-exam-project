@@ -1,0 +1,42 @@
+.btn {
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 5px;
+
+    font-size: 16px;
+    padding: 8px 12px;
+}
+
+.btn-sm {
+    font-size: 14px;
+    padding: 2px 6px;
+}
+
+.btn:hover {
+    background-color: white;
+}
+
+.btn:active {
+    filter: brightness(50%);
+}
+
+/* button success */
+
+.btn-success {
+    color: white;
+    background-color: var(--green-darkened);
+}
+
+.btn-success:hover {
+    background-color: #05c780;
+}
+
+/* button danger */
+.btn-danger {
+    color: white;
+    background-color: var(--red-darkened);
+}
+
+.btn-danger:hover {
+    background: var(--red);
+}

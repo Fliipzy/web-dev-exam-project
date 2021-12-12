@@ -1,0 +1,40 @@
+/* messages general */
+.message {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    border: 1px solid black;
+    border-radius: 5px;
+
+    color: whitesmoke;
+}
+
+.message .close {
+    line-height: 17px;
+
+    cursor: pointer;
+
+    color: black;
+    float: right;
+    vertical-align: middle;
+}
+
+/* messages - success */
+.message.success {
+    border-color: rgb(7, 51, 7);
+    background-color: rgb(54, 158, 54);
+}
+
+.message.success .close {
+    color: rgb(7, 51, 7);
+}
+
+.message.danger {
+    border-color: rgb(51, 7, 7);
+    background-color: rgb(158, 54, 54);
+}
+
+.message.danger .close {
+    color: rgb(51, 7, 7);
+}

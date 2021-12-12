@@ -7,8 +7,10 @@ require_once(PROJECT_ROOT_PATH . "/Inc/config.php");
 //include controller files
 require_once(PROJECT_ROOT_PATH . "/Controllers/BaseController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/AuthenticationController.php");
+require_once(PROJECT_ROOT_PATH . "/Controllers/AlbumController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/ArtistController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/CustomerController.php");
+require_once(PROJECT_ROOT_PATH . "/Controllers/MediaTypeController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/InvoiceController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/TrackController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/GenreController.php");

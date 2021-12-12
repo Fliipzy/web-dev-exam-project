@@ -1,17 +1,70 @@
 table {
     border-collapse: collapse;
+    margin-right: 10px;
+}
+
+thead tr {
+    background-color: #04AA6D;
+    color: white;
 }
 
 tr, th {
-    border: 1px solid #dddddd;
-    text-align: left;
+    border: 1px solid #464646;
     padding: 8px;
 }
 
 td {
     padding: 10px 15px;
+    border: 1px solid #464646;
 }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
+th, td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 350px;
+    max-width: 350px;
+}
+
+th:last-child, td:last-child {
+    width: inherit;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: white;
+    /*background-color: #b1beb1;*/
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgb(235, 235, 235);
+    /*background-color: #d1ddcf;*/
+}
+
+tbody tr:hover {
+    cursor: pointer;
+    background-color: #d1e6d2;
+}
+
+button, input {
+    font-size: 16px;
+}
+
+#order {
+    width: 300px;
+}
+
+@media screen and (max-width: 990px) {
+    th:nth-child(3), td:nth-child(3) {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 775px) {
+    th:nth-child(2), td:nth-child(2) {
+        display: none;
+    }
+    th, td {
+        width: 660px;
+        max-width: 100%;
+    }
 }

@@ -27,10 +27,21 @@ class MediaTypeController extends BaseController
         try 
         {
             $model = new MediaTypeModel();
+            $mediaType = $model->getMediaType($id);
+
+            if (!$mediaType) {
+                $this->errorDescription = "Album not found";
+                $this->errorHeader = "HTTP/1.1 404 Not Found";
+            }
+            else 
+            {
+                $this->responseData = json_encode($mediaType);
+            }
         } 
         catch (Exception $exception) 
         {
-            
+            $this->errorDescription = $exception->getMessage();
+            $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
         }
 
         $this->handleResponse();

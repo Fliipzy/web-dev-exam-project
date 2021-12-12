@@ -3,7 +3,7 @@ session_start();
 
 if (!isset($_SESSION["email"])) 
 {
-    header("Location: login.php", true, 302);
+    header("Location: login.php#redirect", true, 302);
     exit();
 }
 ?>
@@ -14,7 +14,7 @@ if (!isset($_SESSION["email"]))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MusicStore | Profile</title>
+    <title>TuneStore | Profile</title>
 
     <link rel="stylesheet" href="../public/css/global.css">
     

@@ -27,10 +27,21 @@ class AlbumController extends BaseController
         try 
         {
             $model = new AlbumModel();
+            $album = $model->getAlbum($id);
+
+            if (!$album) {
+                $this->errorDescription = "Album not found";
+                $this->errorHeader = "HTTP/1.1 404 Not Found";
+            }
+            else 
+            {
+                $this->responseData = json_encode($album);
+            }
         } 
         catch (Exception $exception) 
         {
-            
+            $this->errorDescription = $exception->getMessage();
+            $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
         }
 
         $this->handleResponse();

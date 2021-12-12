@@ -1,3 +1,7 @@
+if (window.location.hash == "#redirect") {
+    document.getElementById("redirectMessage").hidden = false;
+}
+
 const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener("submit", (event) => {

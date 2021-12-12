@@ -3,18 +3,134 @@
 /* other .css imports */
 @import './navbar.css';
 @import './footer.css';
+@import './inputs.css';
+@import './buttons.css';
+@import './message.css';
+@import './modal.css';
+
+:root {
+    /* colors */
+    --green: #04AA6D;
+    --green-lightened: #04c47e;
+    --green-darkened: #058f5c;
+
+    --dark: #303235;
+    --dark-lightened: #3a3d41;
+    --dark-darkened: #111;
+
+    --red: #da2f2f;
+    --red-darkened: #bb1919;
+}
+
+html, body {
+    height: 100%;
+}
 
 body {
     font-family: 'Roboto', sans-serif;
-    height: 100%;
     margin: 0;
-    background-color: rgb(184, 184, 184);
+    background-color: rgb(124, 124, 124);
 }
 
+a {
+    text-decoration: none;
+    color: var(--green);
+}
 
+a:hover {
+    color: var(--green-lightened);
+}
 
 .container {
+    background-color:  rgb(184, 184, 184);
     margin-right: auto;
     margin-left: auto;
+    padding: 1px 30px;
     width: 80%;
+    height: calc(100% - 49px);
+}
+
+.spinner {
+    vertical-align: middle;
+}
+
+/* card */
+.card {
+    border: 1px solid #464646;
+    border-radius: 8px;
+}
+
+.card-header {
+    font-size: 20px;
+
+    border-bottom: 1px solid #464646;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+
+    padding: 10px 15px;
+
+    background-color: gainsboro;
+
+}
+
+.card-body {
+    background-color: white;
+    padding: 10px 15px;
+}
+
+.card-body:last-child {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.card-footer {
+    border-top: 1px solid #464646;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+
+    padding: 10px 15px;
+
+    background-color: gainsboro;
+}
+
+/* pills */
+.pill {
+    font-size: 12px;
+    background-color: white;
+    color: black;
+    border-radius: 12px;
+    padding: 1px 8px;
+}
+
+.pill.pill-top {
+    vertical-align: top;
+}
+
+.pill.pill-danger {
+    background-color: red;
+    color: white;
+}
+
+/* rows & cols */
+.col {
+    display: flex;
+}
+
+.row:not(:last-child) {
+    margin-right: 10px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 900px) {
+    .container {
+        margin-right: 0px;
+        margin-left: 0px;
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    span.minimizable-text {
+        display: none;
+    }
 }
