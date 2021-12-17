@@ -3,10 +3,12 @@
 /* other .css imports */
 @import './navbar.css';
 @import './footer.css';
-@import './inputs.css';
+@import './forms.css';
 @import './buttons.css';
 @import './message.css';
 @import './modal.css';
+@import './gridsystem.css';
+@import './spaces.css';
 
 :root {
     /* colors */
@@ -32,6 +34,11 @@ body {
     background-color: rgb(124, 124, 124);
 }
 
+hr {
+    border-top: 1px solid black;
+    margin-bottom: 20px;
+}
+
 a {
     text-decoration: none;
     color: var(--green);
@@ -45,9 +52,8 @@ a:hover {
     background-color:  rgb(184, 184, 184);
     margin-right: auto;
     margin-left: auto;
-    padding: 1px 30px;
+    padding: 18px 30px;
     width: 80%;
-    height: calc(100% - 49px);
 }
 
 .spinner {
@@ -111,14 +117,6 @@ a:hover {
     color: white;
 }
 
-/* rows & cols */
-.col {
-    display: flex;
-}
-
-.row:not(:last-child) {
-    margin-right: 10px;
-}
 
 /* Responsive styles */
 @media screen and (max-width: 900px) {

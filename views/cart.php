@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["email"])) 
-{
+if (!isset($_SESSION["email"])) {
     header("Location: login.php#redirect", true, 302);
     exit();
 }
@@ -10,6 +9,7 @@ if (!isset($_SESSION["email"]))
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,14 +19,17 @@ if (!isset($_SESSION["email"]))
     <link rel="stylesheet" href="../public/css/global.css">
     <link rel="stylesheet" href="../public/css/cart.css">
 
-    <script defer src="../public/js/cart.js"></script>
+    <script src="../public/js/views/cart.js" defer></script>
     <script src="https://kit.fontawesome.com/13c84602fa.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <?php include("./fragments/navbar.php"); ?>
     <div class="container">
+
         <div class="page-title">
             <h1>Shopping cart</h1>
+            <hr>
             <h2>Here's your shopping cart</h2>
         </div>
 
@@ -39,7 +42,7 @@ if (!isset($_SESSION["email"]))
                 </tr>
             </thead>
             <tbody>
-                
+
             </tbody>
         </table>
 
@@ -51,15 +54,16 @@ if (!isset($_SESSION["email"]))
 
         <br>
 
-        <div class="col">
-            <div class="row">
-                <button class="btn">Clear cart</button>
+        <div class="row">
+            <div class="col">
+                <button class="btn" onclick="clearCart()">Clear cart</button>
             </div>
-            <div class="row">
-                <button class="btn btn-success">Go to checkout <i class="fas fa-angle-double-right"></i></button>
+            <div class="col">
+                <button class="btn btn-success" onclick="goToCheckout()">Go to checkout <i class="fas fa-angle-double-right"></i></button>
             </div>
         </div>
     </div>
     <?php include("./fragments/footer.php"); ?>
 </body>
+
 </html>

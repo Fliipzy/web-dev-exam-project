@@ -17,27 +17,32 @@ $uri = explode("/", $uri);
 // get the request method
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-if ($uri[1] == "authentication") 
-{
+if ($uri[1] == "authentication") {
     $controller = new AuthenticationController();
 
     switch ($requestMethod) {
-    
+
         case "GET":
             if (isset($uri[2]) && $uri[2] == "signout") {
                 $controller->signOut();
+            }
+            else if (isset($uri[2]) && $uri[2] == "session") {
+                header("Content-Type: application/json");
+                echo json_encode($_SESSION);
             }
             break;
 
         case "POST":
             if (isset($uri[2])) {
-                if ($uri[2] == "signin") 
-                {
+                if ($uri[2] == "signin") {
                     $signinRequest = json_decode(file_get_contents("php://input"), true);
                     $controller->signIn($signinRequest);
+                } 
+                else if ($uri[2] == "admin-signin") {
+                    $signinRequest = json_decode(file_get_contents("php://input"), true);
+                    $controller->adminSignin($signinRequest);
                 }
-                else if ($uri[2] == "signup") 
-                {
+                else if ($uri[2] == "signup") {
                     $signupRequest = json_decode(file_get_contents("php://input"), true);
                     $controller->signUp($signupRequest);
                 }
@@ -45,14 +50,12 @@ if ($uri[1] == "authentication")
             break;
 
         case "PATCH":
-            if (isset($uri[2])) 
-            {
-                if ($uri[2] == "reset-password")  
-                {
-                    $status = json_decode(file_get_contents("php://input"), true);
+            if (isset($uri[2])) {
+                if ($uri[2] == "reset-password") {
+                    $resetPasswordRequest = json_decode(file_get_contents("php://input"), true);
+                    $controller->resetPassword($resetPasswordRequest);
                 }
-                if (isset($uri[3]) && $uri[3] == "active-status") 
-                {
+                if (isset($uri[3]) && $uri[3] == "active-status") {
                     $status = json_decode(file_get_contents("php://input"), true);
                     $controller->setUserActiveStatus($uri[2], $status["activeStatus"]);
                 }
@@ -62,8 +65,9 @@ if ($uri[1] == "authentication")
         default:
             $controller->notFound();
             break;
-        }
+    }
 
+    // stop execution so unauthenticated users doesn't get nasty error messages
     exit();
 }
 
@@ -75,15 +79,13 @@ if (!isset($_SESSION["email"])) {
     exit();
 }
 
-switch ($uri[1]) 
-{
+switch ($uri[1]) {
     case "albums":
         $controller = new AlbumController();
 
-        switch ($requestMethod) 
-        {
+        switch ($requestMethod) {
             case "GET":
-                isset($uri[2]) ? $controller->getAlbum($uri[2]) : $controller->getAlbums(); 
+                isset($uri[2]) ? $controller->getAlbum($uri[2]) : $controller->getAlbums();
                 break;
             case "PUT":
                 $album = json_decode(file_get_contents("php://input"), true);
@@ -105,10 +107,9 @@ switch ($uri[1])
     case "artists":
         $controller = new ArtistController();
 
-        switch ($requestMethod) 
-        {
+        switch ($requestMethod) {
             case "GET":
-                isset($uri[2]) ? $controller->getArtist($uri[2]) : $controller->getArtists(); 
+                isset($uri[2]) ? $controller->getArtist($uri[2]) : $controller->getArtists();
                 break;
             case "PUT":
                 $artist = json_decode(file_get_contents("php://input"), true);
@@ -127,8 +128,8 @@ switch ($uri[1])
         }
         break;
 
-    case "cart": 
-        
+    case "cart":
+
         // create cart if it doesn't exist yet
         if (!isset($_SESSION["cart"])) {
             $_SESSION["cart"] = array();
@@ -138,9 +139,7 @@ switch ($uri[1])
         if (!isset($uri[2])) {
             header("Content-type: application/json");
             echo json_encode($_SESSION["cart"]);
-        }
-
-        else {
+        } else {
             // GET api/cart/add/:id
             if ($uri[2] == "add" && isset($uri[3])) {
                 array_push($_SESSION["cart"], intval($uri[3]));
@@ -154,7 +153,7 @@ switch ($uri[1])
             // GET api/cart/clear
             else if ($uri[2] == "clear") {
                 $_SESSION["cart"] = array();
-            } 
+            }
 
             // 404 not found
             else {
@@ -168,10 +167,9 @@ switch ($uri[1])
     case "customers":
         $controller = new CustomerController();
 
-        switch ($requestMethod) 
-        {
+        switch ($requestMethod) {
             case "GET":
-                isset($uri[2]) ? $controller->getCustomer($uri[2]) : $controller->getCustomers();  
+                isset($uri[2]) ? $controller->getCustomer($uri[2]) : $controller->getCustomers();
                 break;
             case "PUT":
                 $customer = json_decode(file_get_contents("php://input"), true);
@@ -186,10 +184,9 @@ switch ($uri[1])
     case "genres":
         $controller = new GenreController();
 
-        switch ($requestMethod) 
-        {
+        switch ($requestMethod) {
             case "GET":
-                isset($uri[2]) ? $controller->getGenre($uri[2]) : $controller->getGenres(); 
+                isset($uri[2]) ? $controller->getGenre($uri[2]) : $controller->getGenres();
                 break;
             case "POST":
                 $genre = json_decode(file_get_contents("php://input"), true);
@@ -210,8 +207,7 @@ switch ($uri[1])
     case "invoices":
         $controller = new InvoiceController();
 
-        switch ($requestMethod) 
-        {
+        switch ($requestMethod) {
             case "GET":
                 break;
             case "PUT":
@@ -225,14 +221,13 @@ switch ($uri[1])
                 break;
         }
         break;
-        
+
     case "mediatypes":
         $controller = new MediaTypeController();
 
-        switch ($requestMethod) 
-        {
+        switch ($requestMethod) {
             case "GET":
-                isset($uri[2]) ? $controller->getMediaType($uri[2]) : $controller->getMediaTypes(); 
+                isset($uri[2]) ? $controller->getMediaType($uri[2]) : $controller->getMediaTypes();
                 break;
             case "POST":
                 $mediatype = json_decode(file_get_contents("php://input"), true);
@@ -250,10 +245,9 @@ switch ($uri[1])
     case "tracks":
         $controller = new TrackController();
 
-        switch ($requestMethod) 
-        {
+        switch ($requestMethod) {
             case "GET":
-                isset($uri[2]) ? $controller->getTrack($uri[2]) : $controller->getTracks(); 
+                isset($uri[2]) ? $controller->getTrack($uri[2]) : $controller->getTracks();
                 break;
             case "PUT":
                 $track = json_decode(file_get_contents("php://input"), true);
@@ -272,15 +266,9 @@ switch ($uri[1])
         }
         break;
 
-    case "test":
-        $testObj = json_decode(file_get_contents("php://input"), true);
-        var_dump(array_values($testObj));
-        break;
-
     default:
         // return 404 status with message
         $controller = new BaseController();
         $controller->notFound();
         break;
 }
-?>

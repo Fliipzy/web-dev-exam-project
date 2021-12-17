@@ -20,12 +20,19 @@ class CustomerModel extends Database
         return $results ? $results[0] : null;
     }
 
+    public function getCustomerById($id) 
+    {
+        $results = $this->select("SELECT * FROM `customer` WHERE `CustomerId` = ?", $id);
+        return $results ? $results[0] : null;
+    }
+
     public function updateCustomer($updatedCustomer)
     {
         $updatedCustomerParams = [
             $updatedCustomer["firstName"],
             $updatedCustomer["lastName"],
             $updatedCustomer["company"],
+            $updatedCustomer["address"],
             $updatedCustomer["city"],
             $updatedCustomer["state"],
             $updatedCustomer["country"],

@@ -19,6 +19,14 @@ class InvoiceController extends BaseController
     }
 
     /**
+     * POST /api/invoices
+     */
+    public function createInvoice($invoice)
+    {
+
+    }
+
+    /**
      * PUT /api/invoices
      */
     public function updateInvoice($updatedInvoice)

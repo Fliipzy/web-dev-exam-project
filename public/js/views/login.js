@@ -1,5 +1,5 @@
 if (window.location.hash == "#redirect") {
-    document.getElementById("redirectMessage").hidden = false;
+    popmessage("message-login-first", "Whoa, please login before you use TuneStore™!", "success");
 }
 
 const loginForm = document.getElementById("loginForm");
@@ -15,7 +15,7 @@ loginForm.addEventListener("submit", (event) => {
             location.reload();
         }
         else {
-            handleUnauthorized();
+            popmessage("message-error", "Login credentials were wrong, please try again!", "danger");
         }
     };
     
@@ -24,7 +24,3 @@ loginForm.addEventListener("submit", (event) => {
     xhttp.send(JSON.stringify({email: formData.get("email"), password: formData.get("password")}));
 });
 
-function handleUnauthorized()
-{
-    document.getElementById("loginErrorMessage").removeAttribute("hidden");
-}

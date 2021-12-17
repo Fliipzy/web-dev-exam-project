@@ -25,8 +25,14 @@ if (!isset($_SESSION["email"]))
     <?php include("./fragments/navbar.php"); ?>
     <div class="container">
         
-        <h1>Welcome to TuneStore™</h1>
-        <h2>Go to <a href="tracks.php">tracks</a> to buy awesome music!</h2>
+        <?php if ($_SESSION["role"] == "ADMIN"): ?>
+            <h1>Welcome back</h1>
+            <h2>Go to <a href="/webexam/views/admin/dashboard.php">dashboard</a> to administrate!</h2>
+        <?php else: ?>
+            <h1>Welcome to TuneStore™</h1>
+            <h2>Go to <a href="/webexam/views/tracks.php">tracks</a> to buy awesome music!</h2>
+        <?php endif; ?>
+
 
     </div>
     <?php include("./fragments/footer.php"); ?>

@@ -1,0 +1,39 @@
+.input-group {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.input-group.no-top {
+    margin-top: 0px;
+}
+
+.input-group input.grow {
+    width: 93%;
+}
+
+.input-group label {
+    display: inline-block;
+    font-size: 18px;
+    margin-bottom: 1px;
+}
+
+.input-group input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 3px;
+    font-size: 16px;
+    display: block;
+    margin-top: 5px;
+}
+
+input.noblock {
+    display: initial;
+}
+
+@media screen and (max-width: 600px) {
+    .input-group input {
+        width: -webkit-fill-available;
+    }
+}
+

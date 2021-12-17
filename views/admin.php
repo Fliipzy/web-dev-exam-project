@@ -13,14 +13,14 @@ if (isset($_SESSION["email"]))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TuneStore | Login</title>
+    <title>TuneStore | Admin login</title>
 
     <link rel="stylesheet" href="../public/css/global.css">
     
     <!--util scripts, load before view script-->
     <script src="../public/js/messages.js"></script>
 
-    <script src="../public/js/views/login.js" defer></script>
+    <script src="../public/js/admin.js" defer></script>
     <script src="https://kit.fontawesome.com/13c84602fa.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -29,27 +29,19 @@ if (isset($_SESSION["email"]))
     
     <div class="container">
 
-        <div hidden id="message-login-first"></div>
-    
-        <h1>Login</h1>
+        <h1>Admin login</h1>
         <hr>
-        <form id="loginForm" action="home.php" method="post">
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" required>
-            </div>
+
+        <form id="adminLoginForm">
             <div class="input-group">
                 <label for="password">Password</label>
                 <input type="password" name="password" required>
             </div>
             <button class="btn btn-success" type="submit">Login</button>
         </form>
-        <br>
-
-        <div hidden id="message-error"></div>
 
         <br>
-        No account? <a href="signup.php">Sign up</a>
+        <div hidden id="message"></div>
     </div>
 
     <?php include("./fragments/footer.php") ?>

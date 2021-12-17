@@ -10,7 +10,7 @@ class TrackModel extends Database
     public function searchTracks($query, $limit)
     {
         $query = "%" . $query . "%";
-        return $this->select("SELECT * FROM `track` WHERE `Name` LIKE ? LIMIT ?", [$query, $limit ? $limit : -1]);
+        return $this->select("SELECT * FROM `track` WHERE `Name` LIKE ? OR `Composer` LIKE ? LIMIT ?", [$query, $query, $limit ? $limit : -1]);
     }
 
     public function getTrack($id)

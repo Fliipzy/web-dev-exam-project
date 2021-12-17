@@ -7,7 +7,7 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
     startSpinner("searchSpinner");
 
     let formData = new FormData(document.getElementById("searchForm"));
-    lastSearchQuery = formData.get("query");
+    lastSearchQuery = sanitizeString(formData.get("query"));
 
     requestTrackData(lastSearchQuery);
 
@@ -98,6 +98,7 @@ function populateTrackTable() {
 function displaySearchResults() {
     const searchResults = document.getElementById("searchResults");
     searchResults.innerHTML = 
+        `<b>Search term:</b> ${lastSearchQuery}<br>` +
         `<b>Results found:</b> ${tracks.length}`;
     searchResults.hidden = false;
 }

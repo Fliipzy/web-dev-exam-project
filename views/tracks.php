@@ -18,10 +18,12 @@ if (!isset($_SESSION["email"]))
 
     <link rel="stylesheet" href="../public/css/global.css">
     <link rel="stylesheet" href="../public/css/tracks.css">
+
+    <script src="../public/js/utils.js"></script>
+    <script src="../public/js/spinner.js"></script>
     
-    <script type="text/javascript" src="../public/js/cart.js"></script>
-    <script type="text/javascript" defer src="../public/js/tracks.js"></script>
-    <script defer src="../public/js/spinner.js"></script>
+    <script src="../public/js/views/cart.js" defer></script>
+    <script src="../public/js/views/tracks.js" defer></script>
     <script src="https://kit.fontawesome.com/13c84602fa.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -29,7 +31,7 @@ if (!isset($_SESSION["email"]))
     <div class="container">
 
         <h1>Tracks</h1>
-
+        <hr>
 
         <form id="searchForm" method="get">
             <div class="input-group">
@@ -45,10 +47,10 @@ if (!isset($_SESSION["email"]))
 
         <br>
 
-        <div class="col">
+        <div class="row">
 
             <!-- Track table row -->
-            <div id="trackTableRow" class="row">
+            <div id="trackTableRow" class="col">
 
                 <table id="trackTable" class="table">
                     <thead>
