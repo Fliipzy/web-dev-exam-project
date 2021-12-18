@@ -57,9 +57,9 @@ if (isset($_SESSION["email"]))
         
         <!-- message element for errors etc. -->
         <div hidden id="message"></div>
-
+            
         <br>
-        <a href="login.php"><i class="fas fa-backward"></i></a>&nbsp; Go back 
+        <a href="login.php"><i class="fas fa-arrow-left"></i></a>&nbsp; Go back 
 
     </div>
     <?php include("./fragments/footer.php"); ?>

@@ -4,14 +4,10 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
     document.getElementById("errorMessage").hidden = true;
     document.getElementById("searchResults").hidden = true;
 
-    startSpinner("searchSpinner");
-
     let formData = new FormData(document.getElementById("searchForm"));
     lastSearchQuery = sanitizeString(formData.get("query"));
 
     requestTrackData(lastSearchQuery);
-
-    stopSpinner("searchSpinner");
 });
 
 document.getElementById("prev").addEventListener("click", function() {
@@ -192,5 +188,31 @@ function getFormattedLength(milliseconds) {
     let seconds = ((milliseconds % 60000) / 1000).toFixed(0);
 
     return `${minutes}:${(seconds < 10 ? "0" : "")}${seconds}`;
+}
+
+async function addToCart(trackId) {
+
+        await fetch(`../api/cart/add/${trackId}`);
+        
+        let response = await fetch(`../api/cart`)
+            .then(response => response.json());
+        
+        let cartTracks = response;
+
+        const cartPill = document.getElementById("cartPill");
+        
+        if (cartTracks.length == 0) {
+            cartPill.hidden = true;
+        }
+        else {
+            cartPill.innerText = cartTracks.length;;
+            cartPill.hidden = false;
+        }
+        
+        // unhide the cart navlink 
+        document.getElementById("cartNavLink").hidden = false;
+
+        // pop toast
+        createToast("Info", "New track has been added to cart!", "success", "toastContainer");
 }
 

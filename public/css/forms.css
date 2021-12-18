@@ -1,39 +1,35 @@
+/* input groups */
+
 .input-group {
+    width: 100%;
     margin-top: 10px;
     margin-bottom: 25px;
 }
 
-.input-group.no-top {
-    margin-top: 0px;
+
+/* input */
+
+input {
+    padding: 10px 0px 10px 9px;
+    border: 1px solid #00000063;
+    border-radius: 4px;
+    font-size: 15px;
+    display: block;
+    margin-top: 5px;
+    width: calc(100% - 11px);
 }
 
-.input-group input.grow {
-    width: 93%;
-}
-
+/* labels */
 .input-group label {
+    color: rgb(32, 32, 32);
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 1px;
 }
 
-.input-group input {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 3px;
-    font-size: 16px;
-    display: block;
-    margin-top: 5px;
+.input-group label.required:after {
+    content: "*";
+    color: rgb(255, 100, 100);
+    position: relative;
+    right: -2px;
 }
-
-input.noblock {
-    display: initial;
-}
-
-@media screen and (max-width: 600px) {
-    .input-group input {
-        width: -webkit-fill-available;
-    }
-}
-

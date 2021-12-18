@@ -9,6 +9,7 @@
 @import './modal.css';
 @import './gridsystem.css';
 @import './spaces.css';
+@import './toasts.css';
 
 :root {
     /* colors */
@@ -31,7 +32,7 @@ html, body {
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
-    background-color: rgb(124, 124, 124);
+    background-color: rgb(44 48 47);
 }
 
 hr {

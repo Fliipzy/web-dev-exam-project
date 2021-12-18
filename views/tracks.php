@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["email"])) 
-{
+if (!isset($_SESSION["email"])) {
     header("Location: login.php#redirect", true, 302);
     exit();
 }
@@ -10,6 +9,7 @@ if (!isset($_SESSION["email"]))
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,13 +19,13 @@ if (!isset($_SESSION["email"]))
     <link rel="stylesheet" href="../public/css/global.css">
     <link rel="stylesheet" href="../public/css/tracks.css">
 
+    <script src="../public/js/toasts.js"></script>
     <script src="../public/js/utils.js"></script>
-    <script src="../public/js/spinner.js"></script>
-    
-    <script src="../public/js/views/cart.js" defer></script>
+
     <script src="../public/js/views/tracks.js" defer></script>
     <script src="https://kit.fontawesome.com/13c84602fa.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <?php include("./fragments/navbar.php"); ?>
     <div class="container">
@@ -37,46 +37,37 @@ if (!isset($_SESSION["email"]))
             <div class="input-group">
                 <input class="noblock" type="text" name="query" required>
                 <input class="btn noblock" type="submit" value="Search">
-                <img hidden id="searchSpinner" class="spinner" src="../public/images/spinner.gif" height="30px">
             </div>
         </form>
 
         <section hidden id="searchResults"></section>
-        
-        <section hidden id="errorMessage" class="error"></section>
 
-        <br>
 
-        <div class="row">
+        <!-- Track table row -->
+        <div id="trackTableRow" class="col">
 
-            <!-- Track table row -->
-            <div id="trackTableRow" class="col">
+            <table id="trackTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Artist(s)</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <table id="trackTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Artist(s)</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        
-                    </tbody>
-                </table>
-        
-                <section id="tablePagination">
-                    <br>
-                    <button class="btn" id="prev"><i class="fas fa-angle-double-left"></i> Prev</button>
-                    <span></span> 
-                    <button class="btn" id="next">Next <i class="fas fa-angle-double-right"></i></button>
-                </section>
+                </tbody>
+            </table>
 
+            <section id="tablePagination">
                 <br>
-            </div>
-            
-        </div>
+                <button class="btn" id="prev"><i class="fas fa-angle-double-left"></i> Prev</button>
+                <span></span>
+                <button class="btn" id="next">Next <i class="fas fa-angle-double-right"></i></button>
+            </section>
 
+
+        </div>
 
     </div>
     <?php include("./fragments/footer.php"); ?>
@@ -97,5 +88,9 @@ if (!isset($_SESSION["email"]))
         </div>
     </div>
 
+    <!-- container for toast messages -->
+    <div id="toastContainer" class="toast-container"></div>
+
 </body>
+
 </html>

@@ -138,8 +138,9 @@ switch ($uri[1]) {
         // GET api/cart
         if (!isset($uri[2])) {
             header("Content-type: application/json");
-            echo json_encode($_SESSION["cart"]);
-        } else {
+            echo json_encode(array_values($_SESSION["cart"]));
+        } 
+        else {
             // GET api/cart/add/:id
             if ($uri[2] == "add" && isset($uri[3])) {
                 array_push($_SESSION["cart"], intval($uri[3]));
@@ -147,7 +148,8 @@ switch ($uri[1]) {
 
             // GET api/cart/remove/:id
             else if ($uri[2] == "remove" && isset($uri[3])) {
-                $_SESSION["cart"] = array_diff($_SESSION["cart"], intval($uri[3]));
+                $index = array_search($uri[3], $_SESSION["cart"]);
+                unset($_SESSION["cart"][$index]);
             }
 
             // GET api/cart/clear

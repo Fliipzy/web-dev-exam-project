@@ -46,40 +46,6 @@ class MediaTypeController extends BaseController
 
         $this->handleResponse();
     }
-
-    /**
-     * POST /api/mediatypes
-     */
-    public function createMediaType($id)
-    {
-        try 
-        {
-            $model = new MediaTypeModel();
-        } 
-        catch (Exception $exception) 
-        {
-            
-        }
-
-        $this->handleResponse();
-    }
-
-    /**
-     * DELETE /api/mediatypes/:id
-     */
-    public function deleteMediaType($id)
-    {
-        try 
-        {
-            $model = new MediaTypeModel();
-        } 
-        catch (Exception $exception) 
-        {
-            
-        }
-
-        $this->handleResponse();
-    }
 }
 
 ?>

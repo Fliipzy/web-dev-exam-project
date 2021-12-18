@@ -1,28 +1,38 @@
 /* rows & cols */
 .row {
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-.col:not(last) {
-    margin-right: 10px;
-}
-
-.row-title {
-    margin-bottom: 5px;
-}
-
-.col.more-space {
-    margin-right: 30px;
-}
-
-@media screen and (max-width: 900px) {
+.col {
 
 }
 
-@media screen and (max-width: 600px) {
-    .col {
-        width: 100%;
-        margin: 0px;
-    }
+.col.col-1 {
+    width: 10%;
+}
+
+.col.col-2 {
+    width: 20%;
+}
+
+.col.col-3 {
+    width: 30%;
+}
+
+.col.col-4 {
+    width: 40%;
+}
+
+.col.col-5 {
+    width: 50%;
+}
+
+.col.col-6 {
+    width: 60%;
+}
+
+.col.col-7 {
+    width: 70%;
 }

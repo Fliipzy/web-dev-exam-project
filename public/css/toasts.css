@@ -1,0 +1,107 @@
+.toast {
+    border-left: 12px solid;
+    border-color: inherit;
+    display: inline-block;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 11px 16px 0px rgb(0 0 0 / 14%);
+    color: gray;
+}
+
+.toast-container {
+    display: inline-grid;
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    z-index: 2;
+}
+
+.toast:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.toast .toast-content {
+    display: inline-block;
+    padding: 18px 59px 18px 23px;
+}
+
+.toast .toast-icon {
+    display: inline-block;
+    color: inherit;
+    padding: 0 0 0 17px;
+    font-size: 48px;
+}
+
+.toast .toast-title {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.toast .toast-description {
+    color: #939393;
+}
+
+.toast .close {
+    right: 15px;
+    top: 10px;
+    position: relative;
+    float: right;
+    color: rgb(97, 97, 97);
+    cursor: pointer;
+}
+
+.toast .close::after {
+    content: "✖";
+}
+
+.toast.toast-success {
+    color: #04aa6d
+}
+
+.toast.toast-danger {
+    color: rgb(204, 55, 55);
+}
+
+.toast.toast-primary {
+    color: rgb(55, 144, 204);
+}
+
+.toast.toast-warning {
+    color: rgb(204, 202, 55);
+}
+
+
+
+/* animations */
+
+.toast.hide {
+    opacity: 0;
+}
+
+.toast.fade-in {
+    animation: fadeIn 0.30s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.toast.fade-out {
+    animation: fadeOut 0.30s;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

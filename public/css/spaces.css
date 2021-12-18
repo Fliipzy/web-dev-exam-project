@@ -31,3 +31,8 @@
 .mb-4 {
     margin-bottom: 30px;
 }
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
