@@ -22,7 +22,7 @@ if (!isset($_SESSION["cart"])) {
     <title>TuneStore | Cart</title>
 
     <link rel="stylesheet" href="../public/css/global.css">
-    <link rel="stylesheet" href="../public/css/cart.css">
+    <link rel="stylesheet" href="../public/css/views/cart.css">
 
     <script src="../public/js/toasts.js"></script>
 

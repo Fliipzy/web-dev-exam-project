@@ -17,10 +17,21 @@ class TrackModel extends Database
         return ($this->select("SELECT SUM(`UnitPrice`) AS `Total` FROM `track` WHERE `TrackId` IN (" . implode(", ", $ids) . ")"))[0];
     }
 
-    public function searchTracks($query, $limit)
+    public function searchTracks($searchTerm)
     {
-        $query = "%" . $query . "%";
-        return $this->select("SELECT * FROM `track` WHERE `Name` LIKE ? OR `Composer` LIKE ? LIMIT ?", [$query, $query, $limit ? $limit : -1]);
+        $searchTerm = "%" . $searchTerm . "%";
+        return $this->select(
+            "SELECT `track`.`TrackId`, `track`.`Name`, `track`.`Composer`, `track`.`Milliseconds`, `track`.`Bytes`, `track`.`UnitPrice`,
+                `album`.`Title` AS `Album`, `genre`.`Name` AS `Genre`, `mediatype`.`Name` AS `MediaType`
+             FROM `track` 
+             INNER JOIN `album`
+                ON `track`.`AlbumId` = `album`.`AlbumId`
+             INNER JOIN `genre`
+                ON `track`.`GenreId` = `genre`.`GenreId`
+            INNER JOIN `mediatype`
+                ON `track`.`MediaTypeId` = `mediatype`.`MediaTypeId`
+             WHERE `track`.`Name` LIKE ? OR `Composer` LIKE ? OR `album`.`Title` LIKE ?",
+            [$searchTerm, $searchTerm, $searchTerm]);
     }
 
     public function getTrack($id)

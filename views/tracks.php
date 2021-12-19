@@ -17,7 +17,7 @@ if (!isset($_SESSION["email"])) {
     <title>TuneStore | Tracks</title>
 
     <link rel="stylesheet" href="../public/css/global.css">
-    <link rel="stylesheet" href="../public/css/tracks.css">
+    <link rel="stylesheet" href="../public/css/views/tracks.css">
 
     <script src="../public/js/toasts.js"></script>
     <script src="../public/js/utils.js"></script>
@@ -34,11 +34,62 @@ if (!isset($_SESSION["email"])) {
         <hr>
 
         <form id="searchForm" method="get">
-            <div class="input-group">
-                <input class="noblock" type="text" name="query" required>
-                <input class="btn noblock" type="submit" value="Search">
+            <div class="row">
+                <div class="col col-2">
+                    <div class="input-group">
+                        <label class="required" for="searchTerm">Search term</label>
+                        <input type="text" name="searchTerm" placeholder="Song title, artist or album" required>
+                    </div>
+                </div>
+                <div class="col col-1">
+                    <div class="input-group">
+                        <label for="query">Genre</label>
+                        <select name="genre">
+                            <option selected>All genres</option>
+                            <option value="1">Rock</option>
+                            <option value="2">Jazz</option>
+                            <option value="3">Metal</option>
+                            <option value="4">Alternative & Punk</option>
+                            <option value="5">Rock And Roll</option>
+                            <option value="6">Blues</option>
+                            <option value="7">Latin</option>
+                            <option value="8">Reggae</option>
+                            <option value="9">Pop</option>
+                            <option value="10">Soundtrack</option>
+                            <option value="11">Bossa Nova</option>
+                            <option value="12">Easy Listening</option>
+                            <option value="13">Heavy Metal</option>
+                            <option value="14">R&B/Soul</option>
+                            <option value="15">Electronica/Dance</option>
+                            <option value="16">World</option>
+                            <option value="17">Hip Hop/Rap</option>
+                            <option value="18">Science Fiction</option>
+                            <option value="19">TV Shows</option>
+                            <option value="20">Sci Fi & Fantasy</option>
+                            <option value="21">Drama</option>
+                            <option value="22">Comedy</option>
+                            <option value="23">Alternative</option>
+                            <option value="24">Classical</option>
+                            <option value="25">Opera</option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
+
+            <div class="row">
+                <div class="col col-1">
+                    <button class="btn btn-success w-100 mr-1" type="submit" value="Search">Search</button>
+                </div>
+                <!-- reset search button -->
+                <div class="col col-2">
+                    <button id="resetButton" type="button" class="btn ml-1" >Reset</button>
+                </div>
+            </div>
+
         </form>
+
+        <br>
 
         <section hidden id="searchResults"></section>
 

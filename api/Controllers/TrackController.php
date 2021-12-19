@@ -6,33 +6,36 @@ class TrackController extends BaseController
      */
     public function getTracks()
     {
-        $queryParams = array(); 
-        $this->getQueryStringParams($queryParams);
-
-        try 
-        {
+        try {
             $model = new TrackModel();
             $limit = null;
 
-            if (isset($queryParams["limit"]) && $queryParams["limit"]) 
-            {
+            if (isset($queryParams["limit"]) && $queryParams["limit"]) {
                 $limit = $queryParams["limit"];
             }
-
-            if (isset($queryParams["search"]) && $queryParams["search"]) {
-                $trackArray = $model->searchTracks($queryParams["search"], $limit);
-                $this->responseData = json_encode($trackArray);
-            }
-            
-            else 
-            {
+            else  {
                 $trackArray = $model->getTracks($limit);
                 $this->responseData = json_encode($trackArray);
             }
 
         } 
-        catch (Exception $exception) 
-        {
+        catch (Exception $exception) {
+            $this->errorDescription = $exception->getMessage();
+            $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
+        }
+
+        $this->handleResponse();
+    }
+
+    /**
+     * GET /api/tracks/search
+     */
+    public function getTracksFromSearch($searchQuery) {
+        try {
+            $model = new TrackModel();
+            $this->responseData = json_encode($model->searchTracks($searchQuery["searchTerm"]));
+        } 
+        catch (Exception $exception) {
             $this->errorDescription = $exception->getMessage();
             $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
         }

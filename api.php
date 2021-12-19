@@ -88,14 +88,17 @@ switch ($uri[1]) {
                 isset($uri[2]) ? $controller->getAlbum($uri[2]) : $controller->getAlbums();
                 break;
             case "PUT":
+                $controller->authorizeAdmin();
                 $album = json_decode(file_get_contents("php://input"), true);
                 $controller->updateAlbum($album);
                 break;
             case "POST":
+                $controller->authorizeAdmin();
                 $album = json_decode(file_get_contents("php://input"), true);
                 $controller->createAlbum($album);
                 break;
             case "DELETE":
+                $controller->authorizeAdmin();
                 $controller->deleteAlbum($uri[2]);
                 break;
             default:
@@ -112,14 +115,17 @@ switch ($uri[1]) {
                 isset($uri[2]) ? $controller->getArtist($uri[2]) : $controller->getArtists();
                 break;
             case "PUT":
+                $controller->authorizeAdmin();
                 $artist = json_decode(file_get_contents("php://input"), true);
                 $controller->updateArtist($artist);
                 break;
             case "POST":
+                $controller->authorizeAdmin();
                 $artist = json_decode(file_get_contents("php://input"), true);
                 $controller->createArtist($artist);
                 break;
             case "DELETE":
+                $controller->authorizeAdmin();
                 $controller->deleteArtist($uri[2]);
                 break;
             default:
@@ -131,42 +137,34 @@ switch ($uri[1]) {
     case "cart":
         $controller = new CartController();
 
-        // create cart if it doesn't exist yet
         if (!isset($_SESSION["cart"])) {
             $_SESSION["cart"] = array();
         }
 
-        // GET api/cart
         if (!isset($uri[2])) {
             $controller->getCart();
         } 
         else {
-            // GET api/cart/tracks
             if ($uri[2] == "tracks") {
                 $controller->getTracks();
             }
 
-            // GET api/cart/total
             else if ($uri[2] == "total") {
                 $controller->getTotal();
             }
 
-            // GET api/cart/add/:id
             else if ($uri[2] == "add" && isset($uri[3])) {
                 $controller->addTrack($uri[3]);
             }
 
-            // GET api/cart/remove/:id
             else if ($uri[2] == "remove" && isset($uri[3])) {
                 $controller->removeTrack($uri[3]);
             }
 
-            // GET api/cart/clear
             else if ($uri[2] == "clear") {
                 $controller->clear();
             }
 
-            // 404 not found
             else {
                 $controller = new BaseController();
                 $controller->notFound();
@@ -210,12 +208,11 @@ switch ($uri[1]) {
 
         switch ($requestMethod) {
             case "GET":
-                break;
-            case "PUT":
+                isset($uri[2]) ? $controller->getInvoice($uri[2]) : $controller->getInvoices();
                 break;
             case "POST":
-                break;
-            case "DELETE":
+                $invoice = json_decode(file_get_contents("php://input"), true);
+                $controller->createInvoice($invoice);
                 break;
             default:
                 $controller->notFound();
@@ -241,17 +238,26 @@ switch ($uri[1]) {
 
         switch ($requestMethod) {
             case "GET":
-                isset($uri[2]) ? $controller->getTrack($uri[2]) : $controller->getTracks();
+                if (isset($uri[2]) && $uri[2] == "search") {
+                    $searchQuery = json_decode(file_get_contents("php://input"), true);
+                    $controller->getTracksFromSearch($searchQuery);
+                }
+                else {
+                    isset($uri[2]) ? $controller->getTrack($uri[2]) : $controller->getTracks();
+                }
                 break;
             case "PUT":
+                $controller->authorizeAdmin();
                 $track = json_decode(file_get_contents("php://input"), true);
                 $controller->updateTrack($track);
                 break;
             case "POST":
+                $controller->authorizeAdmin();
                 $track = json_decode(file_get_contents("php://input"), true);
                 $controller->createTrack($track);
                 break;
             case "DELETE":
+                $controller->authorizeAdmin();
                 $controller->deleteTrack($uri[2]);
                 break;
             default:

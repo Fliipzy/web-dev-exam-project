@@ -62,7 +62,6 @@ class AuthenticationController extends BaseController
             $this->errorDescription = $exception->getMessage();
             $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
         }
-
         $this->handleResponse();
     }
 

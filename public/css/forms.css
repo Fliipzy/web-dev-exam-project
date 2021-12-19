@@ -19,12 +19,16 @@ input {
     width: calc(100% - 11px);
 }
 
+.row > .col:not(:last-child) > .input-group:only-child > input {
+    width: calc(100% - 22px);
+}
+
 /* selects */
 select {
-    padding: 10px 0px 10px 9px;
+    padding: 10px 0px 8px 9px;
     border: 1px solid #00000063;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 15px;
     display: block;
     margin-top: 5px;
     width: calc(100% - 11px);

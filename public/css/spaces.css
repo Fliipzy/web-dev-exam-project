@@ -1,4 +1,17 @@
+/* widths */
+.w-100 {
+    width: 100%;
+}
+
+/* margin left & right */
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* margin bottom */
+
 .mt-1 {
     margin-top: 10px;
 }
@@ -79,7 +92,3 @@
     float: left;
 }
 
-.mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-}

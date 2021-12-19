@@ -7,6 +7,16 @@ class BaseController
     protected string $responseData = "";
     protected string $successStatusCode = "200 OK";
 
+    public function authorizeAdmin() {
+        if (isset($_SESSION["role"]) && $_SESSION["role"] == "ADMIN") {
+            return;
+        }
+        else {
+            $this->sendOutput(json_encode(array("message" => "You're not authorized to call this endpoint.")), 
+                array("Content-Type: application/json", "HTTP/1.1 401 Unauthorized"));
+        }
+    }
+
     public function notFound() 
     {
         $responseData = json_encode(array("error" => "The endpoint: " . 

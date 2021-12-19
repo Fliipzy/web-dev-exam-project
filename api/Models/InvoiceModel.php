@@ -34,7 +34,7 @@ class InvoiceModel extends Database
                 (`CustomerId`, `InvoiceDate`, `BillingAddress`, 
                  `BillingCity`, `BillingState`, `BillingCountry`,
                  `BillingPostalCode`)
-                 VALUES (?, GETDATE(), ?, ?, ?, ?, ?)", $invoiceArray); 
+                 VALUES (?, NOW(), ?, ?, ?, ?, ?)", $invoiceArray); 
 
             // get the last inserted id
             $invoiceId = $this->getLastInsertedId();

@@ -24,6 +24,9 @@
 
     --red: #da2f2f;
     --red-darkened: #bb1919;
+
+    --link-color: #48697c;
+    --link-color-hover: #679bb9;
 }
 
 html, body {
@@ -39,15 +42,6 @@ body {
 hr {
     border-top: 1px solid black;
     margin-bottom: 20px;
-}
-
-a {
-    text-decoration: none;
-    color: var(--green);
-}
-
-a:hover {
-    color: var(--green-lightened);
 }
 
 .container {
