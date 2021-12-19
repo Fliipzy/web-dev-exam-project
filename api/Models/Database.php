@@ -18,6 +18,22 @@ class Database
         }
     }
 
+    public function startTransaction() {
+        $this->connection->beginTransaction();
+    }
+
+    public function commitTransaction() {
+        $this->connection->commit();
+    }
+
+    public function rollBackTransaction() {
+        $this->connection->rollBack();
+    }
+
+    public function getLastInsertedId() {
+        return $this->connection->lastInsertId();
+    }
+
     public function select($query = "", $params = null)
     {
         try 
