@@ -14,6 +14,7 @@ require_once(PROJECT_ROOT_PATH . "/Controllers/MediaTypeController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/InvoiceController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/TrackController.php");
 require_once(PROJECT_ROOT_PATH . "/Controllers/GenreController.php");
+require_once(PROJECT_ROOT_PATH . "/Controllers/CartController.php");
 
 //include model files
 require_once(PROJECT_ROOT_PATH . "/Models/Database.php");

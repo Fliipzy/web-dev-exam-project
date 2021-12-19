@@ -7,6 +7,16 @@ class TrackModel extends Database
         return $this->select("SELECT * FROM `track` ORDER BY `TrackId` ASC LIMIT ?", $limit ? $limit : -1);
     }
 
+    public function getTracksFromIds($ids) {
+        // the $ids input will not be able to cause a SQL injection because this function can only be invoked internally & ids will always be of type int.
+        return $this->select("SELECT * FROM `track` WHERE `TrackId` IN (" . implode(", ", $ids) . ");");
+    }
+
+    public function getTotalPriceFromIds($ids) {
+        // the $ids input will not be able to cause a SQL injection because this function can only be invoked internally & ids will always be of type int.
+        return ($this->select("SELECT SUM(`UnitPrice`) AS `Total` FROM `track` WHERE `TrackId` IN (" . implode(", ", $ids) . ")"))[0];
+    }
+
     public function searchTracks($query, $limit)
     {
         $query = "%" . $query . "%";

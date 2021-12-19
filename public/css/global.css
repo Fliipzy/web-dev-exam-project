@@ -10,6 +10,7 @@
 @import './gridsystem.css';
 @import './spaces.css';
 @import './toasts.css';
+@import './text.css';
 
 :root {
     /* colors */
@@ -116,6 +117,22 @@ a:hover {
 .pill.pill-danger {
     background-color: red;
     color: white;
+}
+
+.info-block {
+    background-color: #80808069;
+    width: 100%;
+    padding: 18px;
+    border-radius: 3px;
+}
+
+.info-block p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.info-block p:not(:last-child) {
+    margin-bottom: 5px;
 }
 
 

@@ -129,6 +129,7 @@ switch ($uri[1]) {
         break;
 
     case "cart":
+        $controller = new CartController();
 
         // create cart if it doesn't exist yet
         if (!isset($_SESSION["cart"])) {
@@ -137,24 +138,32 @@ switch ($uri[1]) {
 
         // GET api/cart
         if (!isset($uri[2])) {
-            header("Content-type: application/json");
-            echo json_encode(array_values($_SESSION["cart"]));
+            $controller->getCart();
         } 
         else {
+            // GET api/cart/tracks
+            if ($uri[2] == "tracks") {
+                $controller->getTracks();
+            }
+
+            // GET api/cart/total
+            else if ($uri[2] == "total") {
+                $controller->getTotal();
+            }
+
             // GET api/cart/add/:id
-            if ($uri[2] == "add" && isset($uri[3])) {
-                array_push($_SESSION["cart"], intval($uri[3]));
+            else if ($uri[2] == "add" && isset($uri[3])) {
+                $controller->addTrack($uri[3]);
             }
 
             // GET api/cart/remove/:id
             else if ($uri[2] == "remove" && isset($uri[3])) {
-                $index = array_search($uri[3], $_SESSION["cart"]);
-                unset($_SESSION["cart"][$index]);
+                $controller->removeTrack($uri[3]);
             }
 
             // GET api/cart/clear
             else if ($uri[2] == "clear") {
-                $_SESSION["cart"] = array();
+                $controller->clear();
             }
 
             // 404 not found
@@ -190,16 +199,6 @@ switch ($uri[1]) {
             case "GET":
                 isset($uri[2]) ? $controller->getGenre($uri[2]) : $controller->getGenres();
                 break;
-            case "POST":
-                $genre = json_decode(file_get_contents("php://input"), true);
-                $controller->createGenre($genre);
-                break;
-            case "PUT":
-                $updatedGenre = json_decode(file_get_contents("php://input"), true);
-                $controller->updateGenre($updatedGenre);
-            case "DELETE":
-                $controller->deleteGenre($uri[2]);
-                break;
             default:
                 $controller->notFound();
                 break;
@@ -230,13 +229,6 @@ switch ($uri[1]) {
         switch ($requestMethod) {
             case "GET":
                 isset($uri[2]) ? $controller->getMediaType($uri[2]) : $controller->getMediaTypes();
-                break;
-            case "POST":
-                $mediatype = json_decode(file_get_contents("php://input"), true);
-                $controller->createMediaType($mediatype);
-                break;
-            case "DELETE":
-                $controller->deleteMediaType($uri[2]);
                 break;
             default:
                 $controller->notFound();

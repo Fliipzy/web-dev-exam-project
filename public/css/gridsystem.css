@@ -36,3 +36,15 @@
 .col.col-7 {
     width: 70%;
 }
+
+.col.col-8 {
+    width: 80%;
+}
+
+.col.col-9 {
+    width: 90%;
+}
+
+.col.col-10 {
+    width: 100%;
+}

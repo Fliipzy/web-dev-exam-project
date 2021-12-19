@@ -1,0 +1,8 @@
+.text-muted {
+    color: rgb(70, 70, 70);
+}
+
+.text-price::before {
+    content: "$";
+    margin-right: 1px;
+}
