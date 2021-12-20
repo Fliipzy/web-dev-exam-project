@@ -63,7 +63,7 @@ if (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0) {
                             <div class="input-group">
                                 <label class="required" for="country">Country</label>
                                 <!-- sorry -->
-                                <select name="country">
+                                <select id="country" name="country">
                                     <option selected hidden>
                                         <?php
                                         if (!is_null($_SESSION["customer"]["Country"])) {

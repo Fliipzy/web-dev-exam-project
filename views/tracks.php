@@ -45,7 +45,7 @@ if (!isset($_SESSION["email"])) {
                     <div class="input-group">
                         <label for="query">Genre</label>
                         <select name="genre">
-                            <option selected>All genres</option>
+                            <option value="0" selected>All genres</option>
                             <option value="1">Rock</option>
                             <option value="2">Jazz</option>
                             <option value="3">Metal</option>

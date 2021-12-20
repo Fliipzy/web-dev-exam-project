@@ -56,6 +56,9 @@ class InvoiceController extends BaseController
 
                 // now set the checkoutDone flag variable, so user can visit checkout-done.php
                 $_SESSION["checkoutDone"] = true;
+                
+                // also, remove all items from cart
+                $_SESSION["cart"] = array();
             }
         } 
         catch (Exception $exception) {

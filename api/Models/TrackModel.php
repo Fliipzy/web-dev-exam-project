@@ -26,21 +26,39 @@ class TrackModel extends Database
         return $result;
     }
 
-    public function searchTracks($searchTerm)
+    public function searchTracks($searchTerm, $genreId = 0)
     {
         $searchTerm = "%" . $searchTerm . "%";
-        return $this->select(
-            "SELECT `track`.`TrackId`, `track`.`Name`, `track`.`Composer`, `track`.`Milliseconds`, `track`.`Bytes`, `track`.`UnitPrice`,
-                `album`.`Title` AS `Album`, `genre`.`Name` AS `Genre`, `mediatype`.`Name` AS `MediaType`
-             FROM `track` 
-             INNER JOIN `album`
-                ON `track`.`AlbumId` = `album`.`AlbumId`
-             INNER JOIN `genre`
-                ON `track`.`GenreId` = `genre`.`GenreId`
-            INNER JOIN `mediatype`
-                ON `track`.`MediaTypeId` = `mediatype`.`MediaTypeId`
-             WHERE `track`.`Name` LIKE ? OR `Composer` LIKE ? OR `album`.`Title` LIKE ?",
-            [$searchTerm, $searchTerm, $searchTerm]);
+        if ($genreId != 0) {
+            return $this->select(
+                "SELECT `track`.`TrackId`, `track`.`Name`, `track`.`Composer`, `track`.`Milliseconds`, `track`.`Bytes`, `track`.`UnitPrice`,
+                    `album`.`Title` AS `Album`, `genre`.`Name` AS `Genre`, `mediatype`.`Name` AS `MediaType`
+                 FROM `track` 
+                 INNER JOIN `album`
+                    ON `track`.`AlbumId` = `album`.`AlbumId`
+                 INNER JOIN `genre`
+                    ON `track`.`GenreId` = `genre`.`GenreId`
+                INNER JOIN `mediatype`
+                    ON `track`.`MediaTypeId` = `mediatype`.`MediaTypeId`
+                 WHERE (`track`.`Name` LIKE ? OR `Composer` LIKE ? OR `album`.`Title` LIKE ?) AND `track`.`GenreId` = ?
+                 ORDER BY `Track`.`TrackId`",
+                [$searchTerm, $searchTerm, $searchTerm, $genreId]);
+        }
+        else {
+            return $this->select(
+                "SELECT `track`.`TrackId`, `track`.`Name`, `track`.`Composer`, `track`.`Milliseconds`, `track`.`Bytes`, `track`.`UnitPrice`,
+                    `album`.`Title` AS `Album`, `genre`.`Name` AS `Genre`, `mediatype`.`Name` AS `MediaType`
+                 FROM `track` 
+                 INNER JOIN `album`
+                    ON `track`.`AlbumId` = `album`.`AlbumId`
+                 INNER JOIN `genre`
+                    ON `track`.`GenreId` = `genre`.`GenreId`
+                INNER JOIN `mediatype`
+                    ON `track`.`MediaTypeId` = `mediatype`.`MediaTypeId`
+                 WHERE `track`.`Name` LIKE ? OR `Composer` LIKE ? OR `album`.`Title` LIKE ?
+                 ORDER BY `Track`.`TrackId`",
+                [$searchTerm, $searchTerm, $searchTerm]);
+        }
     }
 
     public function getTrack($id)

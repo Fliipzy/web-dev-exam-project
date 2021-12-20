@@ -33,7 +33,8 @@ class TrackController extends BaseController
     public function getTracksFromSearch($searchQuery) {
         try {
             $model = new TrackModel();
-            $this->responseData = json_encode($model->searchTracks($searchQuery["searchTerm"]));
+            $tracks = $model->searchTracks($searchQuery["searchTerm"], $searchQuery["genreId"]);
+            $this->responseData = json_encode($tracks);
         } 
         catch (Exception $exception) {
             $this->errorDescription = $exception->getMessage();

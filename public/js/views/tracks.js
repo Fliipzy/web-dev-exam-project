@@ -1,10 +1,21 @@
+document.getElementById("resetButton").addEventListener("click", function() {
+    // clear search form
+    document.getElementById("searchForm").querySelector("input[name='searchTerm']").value = "";
+    document.getElementById("searchForm").querySelector("select").selectedIndex = 0;
+
+    // request all tracks
+    searchForTracks();
+});
+
 document.getElementById("searchForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
     let formData = new FormData(document.getElementById("searchForm"));
+    let genreId = document.getElementById("searchForm").querySelector("select").selectedIndex;
+
     lastSearchQuery = sanitizeString(formData.get("searchTerm"));
 
-    requestTrackData(lastSearchQuery);
+    searchForTracks(lastSearchQuery, genreId);
 });
 
 document.getElementById("prev").addEventListener("click", function() {
@@ -24,18 +35,21 @@ let trackTable = document.getElementById("trackTable");
 let tracks = [];
 
 // start requesting the track data as soon as the script loads
-requestTrackData();
+searchForTracks();
 
-function requestTrackData(searchQuery = null) {
+function searchForTracks(searchQuery = null, genreId = 0) {
     
+    let searchBody = {
+        searchTerm: searchQuery ? searchQuery : " ",
+        genreId: genreId ? genreId : 0
+    };
+
     fetch("../api/tracks/search", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            searchTerm: searchQuery ? searchQuery : ""
-        })
+        body: JSON.stringify({ ...searchBody })
     })
     .then((response) => response.json())
     .then((json) => {
@@ -72,7 +86,7 @@ function populateTrackTable() {
                     `<td>${tracks[i].Name}</td>` + 
                     `<td>${tracks[i].Composer ? tracks[i].Composer : ""}</td>` + 
                     `<td>${tracks[i].Album ? tracks[i].Album : ""}</td>` + 
-                    `<td>${tracks[i].UnitPrice} <span class="minimizable-text">$</span></td>`;
+                    `<td>$ ${tracks[i].UnitPrice}</td>`;
                 row.onclick = function() { openModal(i); }
                 trackTableBody.append(row);
             }
@@ -85,7 +99,6 @@ function populateTrackTable() {
         //Hide & unhide necessary elements
         trackTable.hidden = true;
         document.getElementById("tablePagination").hidden = true;
-        errorMessage.hidden = false;
     }
 }
 
