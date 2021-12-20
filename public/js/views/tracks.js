@@ -1,11 +1,8 @@
 document.getElementById("searchForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    document.getElementById("errorMessage").hidden = true;
-    document.getElementById("searchResults").hidden = true;
-
     let formData = new FormData(document.getElementById("searchForm"));
-    lastSearchQuery = sanitizeString(formData.get("query"));
+    lastSearchQuery = sanitizeString(formData.get("searchTerm"));
 
     requestTrackData(lastSearchQuery);
 });
@@ -31,23 +28,26 @@ requestTrackData();
 
 function requestTrackData(searchQuery = null) {
     
-    let xhttp = new XMLHttpRequest();
+    fetch("../api/tracks/search", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            searchTerm: searchQuery ? searchQuery : ""
+        })
+    })
+    .then((response) => response.json())
+    .then((json) => {
 
-    xhttp.onload = function() {
-        if (this.status == 200) {
-            currentResultPage = 0;
-            tracks = JSON.parse(this.response);
-            populateTrackTable();
+        tracks = json;
+        populateTrackTable();
 
-            // display search results
-            if (searchQuery) {
-                displaySearchResults();
-            }
-        }  
-    };
-    
-    xhttp.open("GET", `../api/tracks?${searchQuery ? 'search=' + searchQuery : ''}`, true);
-    xhttp.send();
+        if (searchQuery) {
+            //displaySearchResults();
+        }
+
+    });
 }
 
 function populateTrackTable() {
@@ -71,6 +71,7 @@ function populateTrackTable() {
                 row.innerHTML = 
                     `<td>${tracks[i].Name}</td>` + 
                     `<td>${tracks[i].Composer ? tracks[i].Composer : ""}</td>` + 
+                    `<td>${tracks[i].Album ? tracks[i].Album : ""}</td>` + 
                     `<td>${tracks[i].UnitPrice} <span class="minimizable-text">$</span></td>`;
                 row.onclick = function() { openModal(i); }
                 trackTableBody.append(row);
@@ -81,22 +82,11 @@ function populateTrackTable() {
         }
     }
     else {
-        let errorMessage = document.getElementById("errorMessage");
-        errorMessage.innerHTML = `<br> Could not find any tracks for '${lastSearchQuery}'.`;
-
         //Hide & unhide necessary elements
         trackTable.hidden = true;
         document.getElementById("tablePagination").hidden = true;
         errorMessage.hidden = false;
     }
-}
-
-function displaySearchResults() {
-    const searchResults = document.getElementById("searchResults");
-    searchResults.innerHTML = 
-        `<b>Search term:</b> ${lastSearchQuery}<br>` +
-        `<b>Results found:</b> ${tracks.length}`;
-    searchResults.hidden = false;
 }
 
 function refreshPagination() {
@@ -144,18 +134,15 @@ window.addEventListener("click", function(event) {
 
 // open the modal and display the track info
 async function openModal(trackId) {
-    let album = await getAlbumInfo(tracks[trackId].AlbumId);
-    let mediaType = await getMediaTypeInfo(tracks[trackId].MediaTypeId);
-    let genre = await getGenreInfo(tracks[trackId].GenreId);
 
     let trackInfoElement = document.getElementById("trackInfo");
     trackInfoElement.innerHTML = "";
     trackInfoElement.innerHTML = 
         `<h2>${tracks[trackId].Name}</h2>` + 
         `<p><b>Composer:</b> ${tracks[trackId].Composer ? tracks[trackId].Composer : ''}</p>` + 
-        `<p><b>Album:</b> ${album.Title}</p>` +
-        `<p><b>Genre:</b> ${genre.Name}</p>` + 
-        `<p><b>Media type:</b> ${mediaType.Name}</p>` + 
+        `<p><b>Album:</b> ${tracks[trackId].Album}</p>` +
+        `<p><b>Genre:</b> ${tracks[trackId].Genre}</p>` + 
+        `<p><b>Media type:</b> ${tracks[trackId].MediaType}</p>` + 
         `<p><b>Length:</b> ${getFormattedLength(tracks[trackId].Milliseconds)} minutes</p>` +
         `<p><b>Megabytes (MB):</b> ${tracks[trackId].Bytes / 1000000}</p>` +
         `<p><b>Price:</b> ${tracks[trackId].UnitPrice} $</p>` + 

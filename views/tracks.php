@@ -91,9 +91,6 @@ if (!isset($_SESSION["email"])) {
 
         <br>
 
-        <section hidden id="searchResults"></section>
-
-
         <!-- Track table row -->
         <div id="trackTableRow" class="col">
 
@@ -102,6 +99,7 @@ if (!isset($_SESSION["email"])) {
                     <tr>
                         <th>Title</th>
                         <th>Artist(s)</th>
+                        <th>Album</th>
                         <th>Price</th>
                     </tr>
                 </thead>

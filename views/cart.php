@@ -65,7 +65,7 @@ if (!isset($_SESSION["cart"])) {
 
             <div class="row">
                 <div class="col">
-                    <button class="btn" onclick="clearCart()">Clear cart</button>
+                    <button class="btn mr-1" onclick="clearCart()">Clear cart</button>
                 </div>
                 <div class="col">
                     <button class="btn btn-success" onclick="goToCheckout()">Proceed to checkout <i class="fas fa-angle-double-right"></i></button>
@@ -80,7 +80,10 @@ if (!isset($_SESSION["cart"])) {
             <a href="/webexam/views/tracks.php" class="btn btn-success"><i class="fas fa-angle-double-left"></i>&nbsp; Go back to tracks </a>
         </section>
 
+        <br>
+
     </div>
+    
     <?php include("./fragments/footer.php"); ?>
 
     <!-- container for toast messages -->

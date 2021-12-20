@@ -238,13 +238,7 @@ switch ($uri[1]) {
 
         switch ($requestMethod) {
             case "GET":
-                if (isset($uri[2]) && $uri[2] == "search") {
-                    $searchQuery = json_decode(file_get_contents("php://input"), true);
-                    $controller->getTracksFromSearch($searchQuery);
-                }
-                else {
-                    isset($uri[2]) ? $controller->getTrack($uri[2]) : $controller->getTracks();
-                }
+                isset($uri[2]) ? $controller->getTrack($uri[2]) : $controller->getTracks();
                 break;
             case "PUT":
                 $controller->authorizeAdmin();
@@ -252,9 +246,15 @@ switch ($uri[1]) {
                 $controller->updateTrack($track);
                 break;
             case "POST":
-                $controller->authorizeAdmin();
-                $track = json_decode(file_get_contents("php://input"), true);
-                $controller->createTrack($track);
+                if (isset($uri[2]) && $uri[2] == "search") {
+                    $searchQuery = json_decode(file_get_contents("php://input"), true);
+                    $controller->getTracksFromSearch($searchQuery);
+                }
+                else {
+                    $controller->authorizeAdmin();
+                    $track = json_decode(file_get_contents("php://input"), true);
+                    $controller->createTrack($track);
+                }
                 break;
             case "DELETE":
                 $controller->authorizeAdmin();

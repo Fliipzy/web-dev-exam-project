@@ -19,7 +19,7 @@ fetch("../api/cart")
 fetch("../api/cart/total")
 .then((response) => response.json())
 .then((json) => {
-    let totalPrice = json.Total;
+    let totalPrice = json.total;
     document.getElementById("subTotalPrice").textContent = totalPrice;
     document.getElementById("totalPrice").textContent = totalPrice;
 });

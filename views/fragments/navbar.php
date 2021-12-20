@@ -5,7 +5,9 @@
         <ul>
             <li><a class="active" href="/webexam/views/home.php"><i class="fas fa-home"></i>&nbsp; TuneStore</a></li>
 
-            <li><a href="/webexam/views/tracks.php"><i class="fas fa-music"></i>&nbsp; Tracks</a></li>
+            <?php if (!isset($_SESSION["role"]) || $_SESSION["role"] == "CUSTOMER") : ?> 
+                <li><a href="/webexam/views/tracks.php"><i class="fas fa-music"></i>&nbsp; Tracks</a></li>
+            <?php endif; ?>
             
             <!-- If logged in as admin show admin dashboard -->
             <?php if (isset($_SESSION["role"]) && $_SESSION["role"] == "ADMIN") : ?> 

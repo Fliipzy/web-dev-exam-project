@@ -8,13 +8,22 @@ class TrackModel extends Database
     }
 
     public function getTracksFromIds($ids) {
-        // the $ids input will not be able to cause a SQL injection because this function can only be invoked internally & ids will always be of type int.
-        return $this->select("SELECT * FROM `track` WHERE `TrackId` IN (" . implode(", ", $ids) . ");");
+        $tracks = [];
+        foreach ($ids as $id) {
+            $track = $this->select("SELECT * FROM `track` WHERE `TrackId` = ? LIMIT 1", $id)[0];
+            array_push($tracks, $track);
+        }
+        return $tracks;
     }
 
     public function getTotalPriceFromIds($ids) {
-        // the $ids input will not be able to cause a SQL injection because this function can only be invoked internally & ids will always be of type int.
-        return ($this->select("SELECT SUM(`UnitPrice`) AS `Total` FROM `track` WHERE `TrackId` IN (" . implode(", ", $ids) . ")"))[0];
+        $result["total"] = 0;
+        foreach ($ids as $id) {
+            $unitPrice = $this->select("SELECT `track`.`UnitPrice` FROM `track` WHERE `TrackId` = ? LIMIT 1", $id)[0]["UnitPrice"];
+            $result["total"] += $unitPrice;
+        }
+        $result["total"] = round($result["total"], 2);
+        return $result;
     }
 
     public function searchTracks($searchTerm)

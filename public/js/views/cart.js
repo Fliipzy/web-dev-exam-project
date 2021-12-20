@@ -9,25 +9,15 @@ let tracks = [];
 fetchCartTracks();
 
 function fetchCartTracks() {
-    // first fetch all cart track id's
-    fetch("../api/cart")
+    // first fetch all cart tracks
+    fetch("../api/cart/tracks")
     .then((response) => response.json())
-    .then((trackIds) => {
-        // now that we have the track id's, fetch each track individually
-        let promises = [];
-        for (let i = 0; i < trackIds.length; i++) {
-            promises.push(fetch("../api/tracks/" + trackIds[i]));
-        }
-        // Wait for all response promises to finish, then wait for all json data promises
-        Promise.all(promises)
-        .then((responses) => Promise.all(responses.map(r => r.json())))
-        .then((tracks) => {
-            // now assign this.tracks to the fetched tracks
-            // then aggregate identical tracks and add amount property
-            // lastly, update the cart track to render the table
-            aggregateTracks(tracks);
-            updateCartTable();
-        });
+    .then((json) => {
+        // now assign this.tracks to the fetched tracks
+        // then aggregate identical tracks and add amount property
+        // lastly, update the cart track to render the table
+        aggregateTracks(json);
+        updateCartTable();
     });
 }
 
@@ -64,12 +54,12 @@ function updateCartTable() {
                 let tdAmount = document.createElement("td");
                 let tdPrice = document.createElement("td");
                 let tdRemoveBtn = document.createElement("td");
-    
+
                 tdTitle.textContent = this.tracks[i].Name;
                 tdAmount.textContent = this.tracks[i].Amount;
                 tdPrice.textContent = this.tracks[i].UnitPrice;
                 tdRemoveBtn.innerHTML = `<button class='btn btn-sm' onclick='removeCartTrack(${this.tracks[i].TrackId})'><i class='fas fa-times'></i></button>`;
-    
+
                 // assemble row elements in order
                 row.appendChild(tdTitle);
                 row.appendChild(tdAmount);
@@ -90,29 +80,29 @@ function updateCartTable() {
 
 function removeCartTrack(id) {
     fetch("../api/cart/remove/" + id)
-    .then(() => {
-        // update whole table by invoking 'fetchCartTracks'
-        // not the smartest approach but very easy
-        fetchCartTracks();
+        .then(() => {
+            // update whole table by invoking 'fetchCartTracks'
+            // not the smartest approach but very easy
+            fetchCartTracks();
 
-        //update cart pill in navbar
-        let tracksInCart = 0;
-        for (let i = 0; i < this.tracks.length; i++) {
-            tracksInCart += this.tracks[i].Amount;
-        }
-        if (tracksInCart - 1 > 0) {
-            document.getElementById("cartPill").textContent = (tracksInCart - 1);
-        }
-        else {
-            // hide the pill & display the 'empty cart' section
-            document.getElementById("cartPill").hidden = true;
-            document.getElementById("cartSection").hidden = true;
-            document.getElementById("emptyCartSection").hidden = false;
-        }
+            //update cart pill in navbar
+            let tracksInCart = 0;
+            for (let i = 0; i < this.tracks.length; i++) {
+                tracksInCart += this.tracks[i].Amount;
+            }
+            if (tracksInCart - 1 > 0) {
+                document.getElementById("cartPill").textContent = (tracksInCart - 1);
+            }
+            else {
+                // hide the pill & display the 'empty cart' section
+                document.getElementById("cartPill").hidden = true;
+                document.getElementById("cartSection").hidden = true;
+                document.getElementById("emptyCartSection").hidden = false;
+            }
 
-        // pop toast
-        createToast("Info", "Track was removed from cart!", "primary", "toastContainer");
-    });
+            // pop toast
+            createToast("Info", "Track was removed from cart!", "primary", "toastContainer");
+        });
 }
 
 function goToCheckout() {

@@ -25,18 +25,12 @@ th, td {
     text-overflow: ellipsis;
 }
 
-th:last-child, td:last-child {
-    width: inherit;
-}
-
 tbody tr:nth-child(odd) {
     background-color: white;
-    /*background-color: #b1beb1;*/
 }
 
 tbody tr:nth-child(even) {
     background-color: rgb(235, 235, 235);
-    /*background-color: #d1ddcf;*/
 }
 
 tbody tr:hover {
@@ -44,7 +38,32 @@ tbody tr:hover {
     background-color: #d1e6d2;
 }
 
-@media screen and (max-width: 990px) {
+/* price column */
+td:nth-child(1) {
+    max-width: 250px;
+    width: 250px;
+}
+
+/* artist column */
+td:nth-child(2) {
+    max-width: 250px;
+    width: 250px;
+}
+
+/* album column */
+td:nth-child(3) {
+    max-width: 250px;
+    width: 250px;
+}
+
+/* price column */
+td:nth-child(4) {
+    text-align: center;
+    max-width: 50px;
+    width: 50px;
+}
+
+@media screen and (max-width: 1360px) {
     th:nth-child(3), td:nth-child(3) {
         display: none;
     }
@@ -53,9 +72,5 @@ tbody tr:hover {
 @media screen and (max-width: 775px) {
     th:nth-child(2), td:nth-child(2) {
         display: none;
-    }
-    th, td {
-        width: 660px;
-        max-width: 100%;
     }
 }

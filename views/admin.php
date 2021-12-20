@@ -20,7 +20,7 @@ if (isset($_SESSION["email"]))
     <!--util scripts, load before view script-->
     <script src="../public/js/messages.js"></script>
 
-    <script src="../public/js/admin.js" defer></script>
+    <script src="../public/js/views/admin.js" defer></script>
     <script src="https://kit.fontawesome.com/13c84602fa.js" crossorigin="anonymous"></script>
 </head>
 <body>
