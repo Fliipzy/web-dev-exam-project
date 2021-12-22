@@ -493,7 +493,7 @@ if ($_SESSION["role"] == "CUSTOMER") {
                         </div>
                         <div class="modal-body">
 
-                            <form id="artistsUpdateModalForm">
+                            <form id="artistsCreateModalForm">
 
                                 <div class="input-group">
                                     <label class="required" for="name">Name</label>
@@ -764,9 +764,11 @@ if ($_SESSION["role"] == "CUSTOMER") {
 
             <section id="tablePagination">
                 <br>
-                <button class="btn" id="prev"><i class="fas fa-angle-double-left"></i> Prev</button>
+                <button class="btn" id="first"><i class="fas fa-angle-double-left"></i> First</button>
+                <button class="btn" id="prev"><i class="fas fa-angle-left"></i> Prev</button>
                 <span></span>
-                <button class="btn" id="next">Next <i class="fas fa-angle-double-right"></i></button>
+                <button class="btn" id="next">Next <i class="fas fa-angle-right"></i></button>
+                <button class="btn" id="last">Last <i class="fas fa-angle-double-right"></i></button>
             </section>
 
             <button id="createEntityButton" class="btn btn-success" onclick="openTracksCreateModal()">Create new track</button>

@@ -23,12 +23,12 @@ class InvoiceModel extends Database
     public function createInvoice($invoice, $invoiceLines)
     {
         $invoiceArray = [
-            $invoice["customerId"],
-            $invoice["billingAddress"],
-            $invoice["billingCity"],
-            $invoice["billingState"],
-            $invoice["billingCountry"],
-            $invoice["billingPostalCode"]
+            htmlspecialchars($invoice["customerId"]),
+            htmlspecialchars($invoice["billingAddress"]),
+            htmlspecialchars($invoice["billingCity"]),
+            htmlspecialchars($invoice["billingState"]),
+            htmlspecialchars($invoice["billingCountry"]),
+            htmlspecialchars($invoice["billingPostalCode"])
         ];
 
         // try to perform transaction, roll back if error occurs

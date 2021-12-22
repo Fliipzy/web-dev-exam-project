@@ -27,9 +27,9 @@ class AlbumModel extends Database
     public function updateAlbum($updatedAlbum)
     {
         $updatedAlbumArray = [
-            $updatedAlbum["title"],
-            $updatedAlbum["artistId"],
-            $updatedAlbum["albumId"]
+            htmlspecialchars($updatedAlbum["title"]),
+            htmlspecialchars($updatedAlbum["artistId"]),
+            htmlspecialchars($updatedAlbum["albumId"])
         ];
 
         $statement = $this->executeStatement(
@@ -43,8 +43,8 @@ class AlbumModel extends Database
     public function createAlbum($album)
     {
         $albumArray = [
-            $album["title"],
-            $album["artistId"]
+            htmlspecialchars($album["title"]),
+            htmlspecialchars($album["artistId"])
         ];
 
         $this->insert("INSERT INTO `album` (`Title`, `ArtistId`) VALUES (?, ?)", $albumArray);

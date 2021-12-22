@@ -28,15 +28,15 @@ const dashboardListItems = document.querySelectorAll("#dashboardPanel nav ul li"
 
 dashboardListItems.forEach(listItem => {
     listItem.addEventListener("click", () => {
-        
+
         // remove .active from all list items
         dashboardListItems.forEach(listItem => {
             listItem.classList.remove("active");
         });
-        
+
         // set .active for clicked list item
         listItem.classList.add("active");
-        
+
         // change dashboard view
         changeDashboardView(listItem.getAttribute("view"));
     });
@@ -94,7 +94,7 @@ function openTracksUpdateModal(track) {
 
     tracksUpdateModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         tracksUpdateModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     // set form input values
     trackUpdateForm.querySelector("input[name='id']").value = track.TrackId;
@@ -141,7 +141,7 @@ function openTracksUpdateModal(track) {
                 createToast("Info", "Track could not be updated!", "danger", "toastContainer");
                 tracksUpdateModal.hidden = true;
             });
-    }, {once: true});
+    }, { once: true });
 
     // finally show the modal
     tracksUpdateModal.hidden = false;
@@ -152,7 +152,7 @@ function openTracksDeleteModal(trackId) {
 
     tracksDeleteModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         tracksDeleteModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     document.getElementById("tracksDeleteModal").querySelector("button").addEventListener("click", () => {
         fetch("../api/tracks/" + trackId, {
@@ -163,7 +163,7 @@ function openTracksDeleteModal(trackId) {
                 fetchTracks();
                 tracksDeleteModal.hidden = true;
             });
-    }, {once: true});
+    }, { once: true });
 
     tracksDeleteModal.hidden = false;
 }
@@ -174,7 +174,7 @@ function openTracksCreateModal() {
 
     tracksCreateModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         tracksCreateModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     tracksCreateModalForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -199,15 +199,21 @@ function openTracksCreateModal() {
             })
         })
             .then((response) => {
-                createToast("Info", "Track was succcesfully created!", "success", "toastContainer");
-                fetchTracks();
-                tracksCreateModal.hidden = true;
+                if (response.ok) {
+                    createToast("Info", "Track was succcesfully created!", "success", "toastContainer");
+                    fetchTracks();
+                    tracksCreateModal.hidden = true;
+                }
+                else {
+                    createToast("Info", "Track could not be created!", "danger", "toastContainer");
+                    tracksCreateModal.hidden = true;
+                }
             })
             .catch((error) => {
                 createToast("Info", "Track could not be created!", "danger", "toastContainer");
                 tracksCreateModal.hidden = true;
             });
-    }, {once: true});
+    }, { once: true });
 
     tracksCreateModal.hidden = false;
 }
@@ -218,7 +224,7 @@ function openAlbumsUpdateModal(album) {
 
     albumsUpdateModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         albumsUpdateModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     albumUpdateForm.querySelector("input[name='id']").value = album.AlbumId;
     albumUpdateForm.querySelector("input[name='title']").value = album.Title;
@@ -239,22 +245,22 @@ function openAlbumsUpdateModal(album) {
                 artist: formData.get("artist")
             })
         })
-        .then((response) => {
-            if (response.ok) {
-                createToast("Info", "Album was succcesfully updated!", "success", "toastContainer");
-                fetchAlbums();
-                albumsUpdateModal.hidden = true;
-            }
-            else {
+            .then((response) => {
+                if (response.ok) {
+                    createToast("Info", "Album was succcesfully updated!", "success", "toastContainer");
+                    fetchAlbums();
+                    albumsUpdateModal.hidden = true;
+                }
+                else {
+                    createToast("Error", "Album could not be updated!", "danger", "toastContainer");
+                    albumsUpdateModal.hidden = true;
+                }
+            })
+            .catch((error) => {
                 createToast("Error", "Album could not be updated!", "danger", "toastContainer");
                 albumsUpdateModal.hidden = true;
-            }
-        })
-        .catch((error) => {
-            createToast("Error", "Album could not be updated!", "danger", "toastContainer");
-            albumsUpdateModal.hidden = true;
-        });
-    }, {once: true});
+            });
+    }, { once: true });
 
     albumsUpdateModal.hidden = false;
 }
@@ -264,18 +270,18 @@ function openAlbumsDeleteModal(albumId) {
 
     albumsDeleteModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         albumsDeleteModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     document.getElementById("albumsDeleteModal").querySelector("button").addEventListener("click", () => {
         fetch("../api/albums/" + albumId, {
             method: "DELETE"
         })
-        .then((response) => {
-            createToast("Info", "Track was succcesfully deleted!", "success", "toastContainer");
-            fetchTracks();
-            albumsDeleteModal.hidden = true;
-        });
-    }, {once: true});
+            .then((response) => {
+                createToast("Info", "Track was succcesfully deleted!", "success", "toastContainer");
+                fetchTracks();
+                albumsDeleteModal.hidden = true;
+            });
+    }, { once: true });
 
     albumsDeleteModal.hidden = false;
 }
@@ -286,11 +292,7 @@ function openAlbumsCreateModal() {
 
     albumsCreateModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         albumsCreateModal.hidden = true;
-    }, {once: true});
-
-    albumsCreateModalForm.querySelector("input[name='id']").value = album.AlbumId;
-    albumsCreateModalForm.querySelector("input[name='title']").value = album.Title;
-    albumsCreateModalForm.querySelector("input[name='artist']").value = album.Artist;
+    }, { once: true });
 
     albumsCreateModalForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -306,22 +308,22 @@ function openAlbumsCreateModal() {
                 artist: formData.get("artist")
             })
         })
-        .then((response) => {
-            if (response.ok) {
-                createToast("Info", "Album was succcesfully updated!", "success", "toastContainer");
-                fetchAlbums();
-                albumsCreateModal.hidden = true;
-            }
-            else {
+            .then((response) => {
+                if (response.ok) {
+                    createToast("Info", "Album was succcesfully updated!", "success", "toastContainer");
+                    fetchAlbums();
+                    albumsCreateModal.hidden = true;
+                }
+                else {
+                    createToast("Error", "Album could not be updated!", "danger", "toastContainer");
+                    albumsCreateModal.hidden = true;
+                }
+            })
+            .catch((error) => {
                 createToast("Error", "Album could not be updated!", "danger", "toastContainer");
                 albumsCreateModal.hidden = true;
-            }
-        })
-        .catch((error) => {
-            createToast("Error", "Album could not be updated!", "danger", "toastContainer");
-            albumsCreateModal.hidden = true;
-        });
-    }, {once: true});
+            });
+    }, { once: true });
 
     albumsCreateModal.hidden = false;
 }
@@ -329,10 +331,10 @@ function openAlbumsCreateModal() {
 function openArtistsUpdateModal(artist) {
     let artistsUpdateModal = document.getElementById("artistsUpdateModal");
     let artistsUpdateModalForm = artistsUpdateModal.querySelector("form");
-    
+
     artistsUpdateModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         artistsUpdateModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     artistsUpdateModalForm.querySelector("input[name='id']").value = artist.ArtistId;
     artistsUpdateModalForm.querySelector("input[name='name']").value = artist.Name;
@@ -346,44 +348,50 @@ function openArtistsUpdateModal(artist) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 artistId: formData.get("id"),
-                name: formData.get("name") 
+                name: formData.get("name")
             })
         })
-        .then((response) => {
-            if (response.ok) {
-                createToast("Info", "Artist was succcesfully updated!", "success", "toastContainer");
-                fetchArtists();
-                artistsUpdateModal.hidden = true;
-            }
-            else {
-                createToast("Info", "Artist could not be updated!", "danger", "toastContainer");
-                artistsUpdateModal.hidden = true;
-            }
-        });
-    }, {once: true});
+            .then((response) => {
+                if (response.ok) {
+                    createToast("Info", "Artist was succcesfully updated!", "success", "toastContainer");
+                    fetchArtists();
+                    artistsUpdateModal.hidden = true;
+                }
+                else {
+                    createToast("Info", "Artist could not be updated!", "danger", "toastContainer");
+                    artistsUpdateModal.hidden = true;
+                }
+            });
+    }, { once: true });
 
     artistsUpdateModal.hidden = false;
 }
 
 function openArtistsDeleteModal(artistId) {
     let artistsDeleteModal = document.getElementById("artistsDeleteModal");
-    
+
     artistsDeleteModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         artistsDeleteModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     document.getElementById("artistsDeleteModal").querySelector("button").addEventListener("click", () => {
-        fetch("../api/artists" + artistId, {
+        fetch("../api/artists/" + artistId, {
             method: "DELETE"
         })
-        .then(() => {
-            createToast("Info", "Artist was succcesfully deleted!", "success", "toastContainer");
-            fetchArtists();
-            artistsDeleteModal.hidden = true;
+        .then((response) => {
+            if (response.ok) {
+                createToast("Info", "Artist was succcesfully deleted!", "success", "toastContainer");
+                fetchArtists();
+                artistsDeleteModal.hidden = true;
+            }
+            else {
+                createToast("Info", "Artist could not be deleted!", "danger", "toastContainer");
+                artistsDeleteModal.hidden = true;
+            }
         });
-    }, {once: true} );
+    }, { once: true });
 
     artistsDeleteModal.hidden = false;
 }
@@ -394,10 +402,7 @@ function openArtistsCreateModal() {
 
     artistsCreateModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         artistsCreateModal.hidden = true;
-    }, {once: true});
-
-    artistsCreateModalForm.querySelector("input[name='id']").value = artist.ArtistId;
-    artistsCreateModalForm.querySelector("input[name='name']").value = artist.Name;
+    }, { once: true });
 
     artistsCreateModalForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -408,32 +413,32 @@ function openArtistsCreateModal() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ 
-                name: formData.get("name") 
+            body: JSON.stringify({
+                name: formData.get("name")
             })
         })
-        .then((response) => {
-            if (response.ok) {
-                createToast("Info", "Artist was succcesfully updated!", "success", "toastContainer");
-                fetchArtists();
-                artistsCreateModal.hidden = true;
-            }
-            else {
-                createToast("Info", "Artist could not be updated!", "danger", "toastContainer");
-                artistsCreateModal.hidden = true;
-            }
-        });
-    }, {once: true});
+            .then((response) => {
+                if (response.ok) {
+                    createToast("Info", "Artist was succcesfully created!", "success", "toastContainer");
+                    fetchArtists();
+                    artistsCreateModal.hidden = true;
+                }
+                else {
+                    createToast("Info", "Artist could not be created!", "danger", "toastContainer");
+                    artistsCreateModal.hidden = true;
+                }
+            });
+    }, { once: true });
 
     artistsCreateModal.hidden = false;
 }
 
 function openCustomersViewModal(customer) {
     let customersViewModal = document.getElementById("customersViewModal");
-    
+
     customersViewModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         customersViewModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     customersViewModal.querySelector("input[name='firstName']").value = customer.FirstName;
     customersViewModal.querySelector("input[name='lastName']").value = customer.LastName;
@@ -446,16 +451,16 @@ function openCustomersViewModal(customer) {
     customersViewModal.querySelector("input[name='city']").value = customer.City;
     customersViewModal.querySelector("input[name='postalCode']").value = customer.PostalCode;
     customersViewModal.querySelector("input[name='address']").value = customer.Address;
-    
+
     customersViewModal.hidden = false;
 }
 
 function openInvoicesViewModal(invoice) {
     let invoicesViewModal = document.getElementById("invoicesViewModal");
-    
+
     invoicesViewModal.getElementsByClassName("close")[0].addEventListener("click", function () {
         invoicesViewModal.hidden = true;
-    }, {once: true});
+    }, { once: true });
 
     invoicesViewModal.querySelector("input[name='customer']").value = invoice.Customer;
     invoicesViewModal.querySelector("input[name='invoiceDate']").value = invoice.InvoiceDate;
@@ -500,6 +505,34 @@ document.getElementById("next").addEventListener("click", () => {
     updatePagination();
 });
 
+document.getElementById("last").addEventListener("click", () => {
+    // increment the current page view
+    switch (currentView) {
+        case "Tracks":
+            current_page_tracks = Math.ceil(tracks.length / ROWS_PER_PAGE) - 1;
+            updateTracksTable();
+            break;
+        case "Albums":
+            current_page_albums = Math.ceil(albums.length / ROWS_PER_PAGE) - 1;
+            updateAlbumsTable();
+            break;
+        case "Artists":
+            current_page_artists = Math.ceil(artists.length / ROWS_PER_PAGE) - 1;
+            updateArtistsTable();
+            break;
+        case "Customers":
+            current_page_customers = Math.ceil(customers.length / ROWS_PER_PAGE) - 1;
+            updateCustomersTable();
+            break;
+        case "Invoices":
+            current_page_invoices = Math.ceil(invoices.length / ROWS_PER_PAGE) - 1;
+            updateInvoicesTable();
+            break;
+    }
+    // update the pagination section elements
+    updatePagination();
+});
+
 document.getElementById("prev").addEventListener("click", () => {
     // increment the current page view
     switch (currentView) {
@@ -528,6 +561,34 @@ document.getElementById("prev").addEventListener("click", () => {
     updatePagination();
 });
 
+document.getElementById("first").addEventListener("click", () => {
+    // increment the current page view
+    switch (currentView) {
+        case "Tracks":
+            current_page_tracks = 0;
+            updateTracksTable();
+            break;
+        case "Albums":
+            current_page_albums = 0;
+            updateAlbumsTable();
+            break;
+        case "Artists":
+            current_page_artists = 0;
+            updateArtistsTable();
+            break;
+        case "Customers":
+            current_page_customers = 0;
+            updateCustomersTable();
+            break;
+        case "Invoices":
+            current_page_invoices = 0;
+            updateInvoicesTable();
+            break;
+    }
+    // update the pagination section elements
+    updatePagination();
+});
+
 //////////////////////////////////////    GENERAL FUNCTIONS          //////////////////////////////////////
 
 function changeDashboardView(view) {
@@ -544,21 +605,21 @@ function changeDashboardView(view) {
             currentView = "Tracks";
             document.getElementById("tracksView").hidden = false;
             document.getElementById("createEntityButton").innerText = "Create new track";
-            document.getElementById("createEntityButton").onclick = function() { openTracksCreateModal() }
+            document.getElementById("createEntityButton").onclick = function () { openTracksCreateModal() }
             document.getElementById("createEntityButton").hidden = false;
             break;
         case "Albums":
             currentView = "Albums";
             document.getElementById("albumsView").hidden = false;
             document.getElementById("createEntityButton").innerText = "Create new album";
-            document.getElementById("createEntityButton").onclick = function() { openAlbumsCreateModal() }
+            document.getElementById("createEntityButton").onclick = function () { openAlbumsCreateModal() }
             document.getElementById("createEntityButton").hidden = false;
             break;
         case "Artists":
             currentView = "Artists";
             document.getElementById("artistsView").hidden = false;
             document.getElementById("createEntityButton").innerText = "Create new artist";
-            document.getElementById("createEntityButton").onclick = function() { openArtistsCreateModal() }
+            document.getElementById("createEntityButton").onclick = function () { openArtistsCreateModal() }
             document.getElementById("createEntityButton").hidden = false;
             break;
         case "Customers":
@@ -611,6 +672,7 @@ function updateTracksTable() {
                 row.classList.add("empty");
                 row.innerHTML =
                     `<td></td>
+                     <td></td>
                      <td></td>
                      <td></td>
                      <td></td>
@@ -815,17 +877,21 @@ function updatePagination() {
     // if the current view table is on page 0, disable prev button
     if (currentResultPage == 0) {
         document.getElementById("prev").setAttribute("disabled", true);
+        document.getElementById("first").setAttribute("disabled", true);
     }
     else {
         document.getElementById("prev").removeAttribute("disabled");
+        document.getElementById("first").removeAttribute("disabled");
     }
 
     // if the current view table is on the last page
     if (currentResultPage == Math.ceil(currentTableLength / ROWS_PER_PAGE) - 1) {
         document.getElementById("next").setAttribute("disabled", "true");
+        document.getElementById("last").setAttribute("disabled", "true");
     }
     else {
         document.getElementById("next").removeAttribute("disabled");
+        document.getElementById("last").removeAttribute("disabled");
     }
 
     // update span text between the two pagination buttons

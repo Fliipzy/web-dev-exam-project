@@ -13,16 +13,11 @@ class GenreModel extends Database
         return isset($results[0]) ? $results[0] : null;
     }
 
-    public function createGenre($genre)
-    {
-        return $this->insert("INSERT INTO `genre` (`Name`) VALUES (?)", array_values($genre));
-    }
-
     public function updateGenre($updatedGenre)
     {
         $updatedGenreArray = [
-            $updatedGenre["name"],
-            $updatedGenre["genreId"]
+            htmlspecialchars($updatedGenre["name"]),
+            htmlspecialchars($updatedGenre["genreId"])
         ];
 
         $statement = $this->executeStatement("UPDATE `genre` SET `Name` = ? WHERE `GenreId` = ?", $updatedGenreArray);

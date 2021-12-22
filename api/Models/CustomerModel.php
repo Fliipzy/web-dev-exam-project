@@ -29,18 +29,18 @@ class CustomerModel extends Database
     public function updateCustomer($updatedCustomer)
     {
         $updatedCustomerParams = [
-            $updatedCustomer["firstName"],
-            $updatedCustomer["lastName"],
-            $updatedCustomer["company"],
-            $updatedCustomer["address"],
-            $updatedCustomer["city"],
-            $updatedCustomer["state"],
-            $updatedCustomer["country"],
-            $updatedCustomer["postalCode"],
-            $updatedCustomer["phone"],
-            $updatedCustomer["fax"],
-            $updatedCustomer["email"],
-            $updatedCustomer["customerId"]
+            htmlspecialchars($updatedCustomer["firstName"]),
+            htmlspecialchars($updatedCustomer["lastName"]),
+            htmlspecialchars($updatedCustomer["company"]),
+            htmlspecialchars($updatedCustomer["address"]),
+            htmlspecialchars($updatedCustomer["city"]),
+            htmlspecialchars($updatedCustomer["state"]),
+            htmlspecialchars($updatedCustomer["country"]),
+            htmlspecialchars($updatedCustomer["postalCode"]),
+            htmlspecialchars($updatedCustomer["phone"]),
+            htmlspecialchars($updatedCustomer["fax"]),
+            htmlspecialchars($updatedCustomer["email"]),
+            htmlspecialchars($updatedCustomer["customerId"])
         ];
 
         $statement = $this->executeStatement(

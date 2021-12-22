@@ -71,15 +71,15 @@ class TrackModel extends Database
     public function updateTrack($updatedTrack)
     {
         $updatedTrackArray = [
-            $updatedTrack["name"],
-            $updatedTrack["albumId"],
-            $updatedTrack["mediaTypeId"],
-            $updatedTrack["genreId"],
-            $updatedTrack["composer"],
-            $updatedTrack["milliseconds"],
-            $updatedTrack["bytes"],
-            $updatedTrack["unitPrice"],
-            $updatedTrack["trackId"],
+            htmlspecialchars($updatedTrack["name"]),
+            htmlspecialchars($updatedTrack["albumId"]),
+            htmlspecialchars($updatedTrack["mediaTypeId"]),
+            htmlspecialchars($updatedTrack["genreId"]),
+            htmlspecialchars($updatedTrack["composer"]),
+            htmlspecialchars($updatedTrack["milliseconds"]),
+            htmlspecialchars($updatedTrack["bytes"]),
+            htmlspecialchars($updatedTrack["unitPrice"]),
+            htmlspecialchars($updatedTrack["trackId"]),
         ];
 
         $statement = $this->executeStatement(
@@ -94,14 +94,14 @@ class TrackModel extends Database
     public function createTrack($track)
     {
         $trackArray = [
-            $track["name"],
-            $track["albumId"],
-            $track["mediaTypeId"],
-            $track["genreId"],
-            $track["composer"],
-            $track["milliseconds"],
-            $track["bytes"],
-            $track["unitPrice"]
+            htmlspecialchars($track["name"]),
+            htmlspecialchars($track["albumId"]),
+            htmlspecialchars($track["mediaTypeId"]),
+            htmlspecialchars($track["genreId"]),
+            htmlspecialchars($track["composer"]),
+            htmlspecialchars($track["milliseconds"]),
+            htmlspecialchars($track["bytes"]),
+            htmlspecialchars($track["unitPrice"])
         ];
 
         return $this->insert(

@@ -11,10 +11,10 @@ class AuthenticationModel extends Database
     public function createCustomer($customer) {
 
         $customerArray = [
-            $customer["firstName"],
-            $customer["lastName"],
-            $customer["email"],
-            $customer["password"]
+            htmlspecialchars($customer["firstName"]),
+            htmlspecialchars($customer["lastName"]),
+            htmlspecialchars($customer["email"]),
+            htmlspecialchars($customer["password"])
         ];
 
         return $this->insert(

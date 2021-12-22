@@ -82,6 +82,20 @@ class AlbumController extends BaseController
     public function createAlbum($album) {
         try {
             $model = new AlbumModel();
+
+            if (!isset($album["artistId"])) {
+                $artistModel = new ArtistModel();
+                $artist = $artistModel->findArtistByName($album["artist"]);
+
+                if (!is_null($artist)) {
+                    $album["artistId"] = $artist["ArtistId"];
+                }
+                else {
+                    $newArtistId = $artistModel->createArtist(array("name" => $album["artist"]));
+                    $album["artistId"] = $newArtistId;
+                }
+            }
+
             $model->createAlbum($album);
         } 
         catch (Exception $exception) {

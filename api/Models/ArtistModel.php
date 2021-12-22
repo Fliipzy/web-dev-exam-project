@@ -16,8 +16,8 @@ class ArtistModel extends Database
     public function updateArtist($updatedArtist)
     {
         $updatedArtistArray = [
-            $updatedArtist["name"],
-            $updatedArtist["artistId"]
+            htmlspecialchars($updatedArtist["name"]),
+            htmlspecialchars($updatedArtist["artistId"])
         ];
 
         $statement = $this->executeStatement(
@@ -35,7 +35,11 @@ class ArtistModel extends Database
 
     public function createArtist($artist)
     {
-        $this->insert("INSERT INTO `artist` (`Name`) VALUES (?)", $artist);
+        $artistArray = [
+           htmlspecialchars($artist["name"])
+        ];
+
+        $this->insert("INSERT INTO `artist` (`Name`) VALUES (?)", $artistArray);
         return $this->getLastInsertedId();
     }
 
@@ -45,7 +49,7 @@ class ArtistModel extends Database
             $this->startTransaction();
 
             // first, find every album that the artist have created
-            $albums = $this->select("SELECT `album`.`AlbumId` WHERE `ArtistId` = ?", $id);
+            $albums = $this->select("SELECT `AlbumId` FROM `album` WHERE `ArtistId` = ?", $id);
 
             // set `AlbumId` column to null for every track that is in one of these albums
             // after that, we need to delete the album because of the NOT NULL constraint between the album and artist table.
