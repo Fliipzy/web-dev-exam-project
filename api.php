@@ -208,6 +208,7 @@ switch ($uri[1]) {
 
         switch ($requestMethod) {
             case "GET":
+                $controller->authorizeAdmin();
                 isset($uri[2]) ? $controller->getInvoice($uri[2]) : $controller->getInvoices();
                 break;
             case "POST":

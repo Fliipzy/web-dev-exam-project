@@ -9,7 +9,8 @@ class ArtistModel extends Database
 
     public function getArtist($id)
     {
-        return $this->select("SELECT * FROM `artist` WHERE `ArtistId` = ?", $id);
+        $result = $this->select("SELECT * FROM `artist` WHERE `ArtistId` = ?", $id);
+        return $result ? $result[0] : null;
     }
 
     public function updateArtist($updatedArtist)
@@ -27,15 +28,41 @@ class ArtistModel extends Database
         return $statement->rowCount();
     }
 
+    public function findArtistByName($name) {
+        $result = $this->select("SELECT * FROM `artist` WHERE `Name` = ? LIMIT 1", $name);
+        return $result ? $result[0] : null;
+    }
+
     public function createArtist($artist)
     {
-        return $this->insert("INSERT INTO `artist` (Name) VALUES (?)", array_values($artist));
+        $this->insert("INSERT INTO `artist` (`Name`) VALUES (?)", $artist);
+        return $this->getLastInsertedId();
     }
 
     public function deleteArtist($id)
     {
-        $statement = $this->executeStatement("DELETE FROM `artist` WHERE `ArtistId` = ?", $id);
-        return $statement->rowCount();
+        try {
+            $this->startTransaction();
+
+            // first, find every album that the artist have created
+            $albums = $this->select("SELECT `album`.`AlbumId` WHERE `ArtistId` = ?", $id);
+
+            // set `AlbumId` column to null for every track that is in one of these albums
+            // after that, we need to delete the album because of the NOT NULL constraint between the album and artist table.
+            foreach ($albums as $album) {
+                $this->executeStatement("UPDATE `track` SET `AlbumId` = NULL WHERE `AlbumId` = ?", $album["AlbumId"]);
+                $this->executeStatement("DELETE FROM `album` WHERE `AlbumId` = ?", $album["AlbumId"]);
+            }
+            
+            // finally, we can delete the artist
+            $this->executeStatement("DELETE FROM `artist` WHERE `ArtistId` = ?", $id);
+
+            $this->commitTransaction();
+        } 
+        catch (PDOException $exception) {
+            $this->rollBackTransaction();
+            throw $exception;
+        }
     }
 }
 

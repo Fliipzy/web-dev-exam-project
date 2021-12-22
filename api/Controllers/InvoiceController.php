@@ -7,7 +7,16 @@ class InvoiceController extends BaseController
      */
     public function getInvoices()
     {
+        try {
+            $model = new InvoiceModel();
+            $this->responseData = json_encode($model->getInvoices(null));
+        } 
+        catch (Exception $exception) {
+            $this->errorDescription = $exception->getMessage();
+            $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
+        }
 
+        $this->handleResponse();
     }
 
     /**
@@ -15,7 +24,16 @@ class InvoiceController extends BaseController
      */
     public function getInvoice($id)
     {
-
+        try {
+            $model = new InvoiceModel();
+            $this->responseData = json_encode($model->getInvoice($id));
+        } 
+        catch (Exception $exception) {
+            $this->errorDescription = $exception->getMessage();
+            $this->errorHeader = "HTTP/1.1 500 Internal Server Error";
+        }
+        
+        $this->handleResponse();
     }
 
     /**

@@ -4,7 +4,14 @@ class InvoiceModel extends Database
 {
     public function getInvoices($limit)
     {
-        return $this->select("SELECT * FROM `invoice` ORDER BY `InvoiceId` ASC LIMIT ?", $limit ? $limit : -1);
+        return $this->select(
+            "SELECT `invoice`.*, CONCAT(`customer`.`FirstName`, ' ', `customer`.`LastName`) AS `Customer` 
+            FROM `invoice` 
+            INNER JOIN `customer`
+                ON `invoice`.`CustomerId` = `customer`.`CustomerId`
+            ORDER BY `InvoiceId` 
+            ASC LIMIT ?", 
+            $limit ? $limit : -1);
     }
 
     public function getInvoice($id)

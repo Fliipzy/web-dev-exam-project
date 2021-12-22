@@ -120,7 +120,7 @@ tbody tr:hover td {
 
 tbody tr.empty {
     cursor: default;
-    height: 33px;
+    height: 39px;
     background-color: #ced4db;
 }
 
@@ -129,4 +129,12 @@ tbody tr.empty:hover td {
     border: none;
     border: 1px solid white;
     background-color: #ced4db;
+}
+
+#tablePagination {
+    display: inline;
+}
+
+#createEntityButton {
+    float: right;
 }
